@@ -1,0 +1,27 @@
+{
+  "name": "coding_is_infinite_learning",
+  "version": "1.0.0",
+  "description": "JS samples",
+  "main": "index.js",
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uttesh/coding_is_infinite_learning.git"
+  },
+  "keywords": [
+    "JS",
+    "samples"
+  ],
+  "author": "Uttesh Kumar T.H.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/uttesh/coding_is_infinite_learning/issues"
+  },
+  "homepage": "https://github.com/uttesh/coding_is_infinite_learning#readme"
+}
