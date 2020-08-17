@@ -1,10 +1,15 @@
 const ConfigService = require("./config.service");
+let configService;
 class ParamUtilityService {
-  getBlankString() {
-    console.log("imported : ", new ConfigService().getParamLength("small"));
+  constructor(configServiceInstace) {
+    configService = configServiceInstace;
+  }
+
+  getBlankString(type) {
+    console.log("from abstration : ", configService.getParamLength("small"));
     //let length = Math.floor(Math.random() * 1000) + 1;
   }
 }
 
-let paramTest = new ParamUtilityService();
+let paramTest = new ParamUtilityService(new ConfigService());
 paramTest.getBlankString();
