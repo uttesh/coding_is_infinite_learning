@@ -20,7 +20,7 @@ class ConfigService {
         length = 10000;
         break;
       case "hulk":
-        length = 1000000;
+        length = 100000;
         break;
     }
     return length;
