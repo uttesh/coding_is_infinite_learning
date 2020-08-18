@@ -18,6 +18,8 @@ class ParamUtilityService {
     }
     return data;
   }
+
+  getRandomWord(type) {}
 }
 
 let paramTest = new ParamUtilityService(new ConfigService());
