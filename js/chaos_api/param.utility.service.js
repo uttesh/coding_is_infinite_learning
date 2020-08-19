@@ -1,10 +1,12 @@
 const ConfigService = require("./config.service");
 const WordGenerator = require("./word.generator");
-let configService, wordGenerator;
+const OtherData = require("./others.generator");
+let configService, wordGenerator, otherData;
 class ParamUtilityService {
-  constructor(configServiceInstace, wordGeneratorInstace) {
+  constructor(configServiceInstace, wordGeneratorInstace, otherDataInstance) {
     configService = configServiceInstace;
     wordGenerator = wordGeneratorInstace;
+    otherData = otherDataInstance;
   }
 
   getBlankString(type) {
@@ -31,6 +33,12 @@ class ParamUtilityService {
     return wordGenerator.generateAlphaNumeric(length);
   }
 
+  getNumber(type) {
+    let length =
+      Math.floor(Math.random() * configService.getParamLength(type)) + 1;
+    return otherData.generateNumber(length);
+  }
+
   populateValues(length, value) {
     let data = "";
     for (let i = 0; i < length; i++) {
@@ -44,7 +52,8 @@ class ParamUtilityService {
 
 let paramTest = new ParamUtilityService(
   new ConfigService(),
-  new WordGenerator()
+  new WordGenerator(),
+  new OtherData()
 );
 let blankWord = paramTest.getBlankString("hulk");
 console.log("blankWord: length: ", blankWord.length);
@@ -57,3 +66,6 @@ console.log("paragraph: ", paragraph);
 
 let alphaNumeric = paramTest.getAlphaNumeric("large");
 console.log("alphaNumeric: ", alphaNumeric);
+
+let number = paramTest.getNumber("large");
+console.log("number: ", number);
