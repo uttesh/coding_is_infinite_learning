@@ -32,9 +32,9 @@ class WordGenerator {
   generateSingleWord(length) {
     return this.generateWord(length);
   }
-  generateParagraph(legnth) {
+  generateParagraph(length) {
     let paragraph = "";
-    for (let i = 0; i < legnth; i++) {
+    for (let i = 0; i < length; i++) {
       paragraph = this.getRandomWord() + " " + paragraph;
     }
     return paragraph;

@@ -5,15 +5,10 @@ const StoreService = require("./store.service");
 const Params = require("./constants");
 let configService, wordGenerator, otherData, storeService;
 class ParamUtilityService {
-  constructor(
-    configServiceInstace,
-    wordGeneratorInstace,
-    otherDataInstance,
-    storeInstance
-  ) {
-    configService = configServiceInstace;
-    wordGenerator = wordGeneratorInstace;
-    otherData = otherDataInstance;
+  constructor(storeInstance) {
+    configService = new ConfigService();
+    wordGenerator = new WordGenerator();
+    otherData = new OtherData();
     storeService = storeInstance;
   }
 
@@ -21,9 +16,13 @@ class ParamUtilityService {
     let length =
       Math.floor(Math.random() * configService.getParamLength(type)) + 1;
     storeService.put(Params.BLANK, this.populateValues(length, " "));
-    storeService.put(Params.WORD, this.generateSingleWord(length));
-    storeService.put(Params.PARAGRAPH, this.generateSingleWord(length));
-    storeService.put(Params.NUMBER, this.generateNumber(length));
+    storeService.put(Params.WORD, wordGenerator.generateSingleWord(length));
+    storeService.put(Params.PARAGRAPH, wordGenerator.generateParagraph(length));
+    storeService.put(Params.NUMBER, otherData.generateNumber(length));
+    storeService.put(
+      Params.ALPHA_NUMERIC,
+      wordGenerator.generateAlphaNumeric(length)
+    );
     console.log("stored Data: ", storeService.getAll());
   }
 
@@ -34,28 +33,7 @@ class ParamUtilityService {
     }
     return data;
   }
-
-  getRandomWord(type) {}
 }
 
-let paramTest = new ParamUtilityService(
-  new ConfigService(),
-  new WordGenerator(),
-  new OtherData(),
-  new StoreService()
-);
+let paramTest = new ParamUtilityService(new StoreService());
 paramTest.populateParamData("large");
-// let blankWord = paramTest.getBlankString("hulk");
-// console.log("blankWord: length: ", blankWord.length);
-
-// let singleWord = paramTest.getSingleWord("large");
-// console.log("singleWord: ", singleWord);
-
-// let paragraph = paramTest.getParagraph("large");
-// console.log("paragraph: ", paragraph);
-
-// let alphaNumeric = paramTest.getAlphaNumeric("large");
-// console.log("alphaNumeric: ", alphaNumeric);
-
-// let number = paramTest.getNumber("large");
-// console.log("number: ", number);
