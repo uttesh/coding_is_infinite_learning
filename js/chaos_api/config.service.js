@@ -1,25 +1,26 @@
+const Constants = require("./constants");
 class ConfigService {
   constructor() {}
   getParamLength(type) {
     console.log("getParamLength : ", type);
     let length = 0;
     switch (type) {
-      case "small":
+      case Constants.LengthTypes.SMALL:
         length = 10;
         break;
-      case "medium":
+      case Constants.LengthTypes.MEDIUM:
         length = 50;
         break;
-      case "big":
+      case Constants.LengthTypes.BIG:
         length = 200;
         break;
-      case "large":
+      case Constants.LengthTypes.LARGE:
         length = 1000;
         break;
-      case "huge":
+      case Constants.LengthTypes.HUGE:
         length = 10000;
         break;
-      case "hulk":
+      case Constants.LengthTypes.HULK:
         length = 100000;
         break;
     }
