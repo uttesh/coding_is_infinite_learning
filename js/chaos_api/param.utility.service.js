@@ -13,9 +13,8 @@ class ParamUtilityService {
   }
 
   populateParamData(type) {
-    let length =
+    const length =
       Math.floor(Math.random() * configService.getParamLength(type)) + 1;
-    console.log("length:: ", length);
     storeService.put(Constants.Params.BLANK, this.populateValues(length, " "));
     storeService.put(
       Constants.Params.WORD,
