@@ -8,12 +8,12 @@ const Constants = Object.freeze({
     SPECIAL_CHARACTERS: "SPECIAL_CHARACTERS",
   },
   LengthTypes: {
-    SMALL: "small",
-    MEDIUM: "medium",
-    LARGE: "large",
-    BIG: "big",
-    HUGE: "huge",
-    HULK: "hulk",
+    SMALL: { label: "small", value: 10 },
+    MEDIUM: { label: "medium", value: 50 },
+    BIG: { label: "big", value: 200 },
+    LARGE: { label: "large", value: 1000 },
+    HUGE: { label: "huge", value: 10000 },
+    HULK: { label: "hulk", value: 100000 },
   },
 });
 
