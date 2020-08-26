@@ -1,6 +1,11 @@
 var fs = require("fs");
+const StoreService = require("./store.service");
+const Constants = require("./constants");
+let storeService;
 class HttpParserService {
-  constructor() {}
+  constructor(storeInstance) {
+    storeService = storeInstance;
+  }
 
   async parsePostManJson(postmanFile) {
     await this.processJSONFile(postmanFile);
@@ -14,7 +19,7 @@ class HttpParserService {
         let items = postManObject.item;
         let apis = [];
         apis = await this.getAPI(items, apis);
-        console.log("all apis :: ", apis.length);
+        storeService.put(Constants.APIS, apis);
       }
     });
   }
@@ -22,7 +27,6 @@ class HttpParserService {
   async getAPI(itemList, requests) {
     itemList.forEach(async (element) => {
       if (element.request) {
-        console.log("element.request :: ", element.name);
         requests.push(element.request);
       } else {
         if (element.item) {
@@ -34,7 +38,9 @@ class HttpParserService {
   }
 }
 
-let httpParserService = new HttpParserService();
-httpParserService.parsePostManJson(
-  "C:\\dev\\clients\\me\\coding_is_infinite_learning\\js\\chaos_api\\dit.postman_collection.json"
-);
+module.exports = HttpParserService;
+
+// let httpParserService = new HttpParserService(new StoreService());
+// httpParserService.parsePostManJson(
+//   "C:\\dev\\clients\\me\\coding_is_infinite_learning\\js\\chaos_api\\dit.postman_collection.json"
+// );
