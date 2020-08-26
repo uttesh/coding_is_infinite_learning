@@ -11,9 +11,26 @@ class HttpParserService {
     fs.readFile(filePath, async (err, data) => {
       if (data) {
         let postManObject = JSON.parse(data);
-        console.log(":: postManObject ::", postManObject);
+        let items = postManObject.item;
+        let apis = [];
+        apis = await this.getAPI(items, apis);
+        console.log("all apis :: ", apis.length);
       }
     });
+  }
+
+  async getAPI(itemList, requests) {
+    itemList.forEach(async (element) => {
+      if (element.request) {
+        console.log("element.request :: ", element.name);
+        requests.push(element.request);
+      } else {
+        if (element.item) {
+          await this.getAPI(element.item, requests);
+        }
+      }
+    });
+    return requests;
   }
 }
 
