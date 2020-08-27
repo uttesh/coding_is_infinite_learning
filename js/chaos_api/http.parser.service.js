@@ -8,18 +8,22 @@ class HttpParserService {
   }
 
   async parsePostManJson(postmanFile) {
-    await this.processJSONFile(postmanFile);
+    await this.processJSONFile(postmanFile, Constants.APIS);
   }
 
-  async processJSONFile(filePath) {
-    console.log("filePath:: ", filePath);
+  async processJSONFile(filePath, type) {
     fs.readFile(filePath, async (err, data) => {
       if (data) {
         let postManObject = JSON.parse(data);
-        let items = postManObject.item;
-        let apis = [];
-        apis = await this.getAPI(items, apis);
-        storeService.put(Constants.APIS, apis);
+        if (type === Constants.APIS) {
+          let items = postManObject.item;
+          let apis = [];
+          apis = await this.getAPI(items, apis);
+          storeService.put(Constants.APIS, apis);
+        }
+        if (type === Constants.ENVS) {
+          storeService.put(Constants.ENVS, data.values);
+        }
       }
     });
   }

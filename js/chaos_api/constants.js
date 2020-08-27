@@ -14,8 +14,9 @@ const Constants = Object.freeze({
     LARGE: { label: "large", value: 1000 },
     HUGE: { label: "huge", value: 10000 },
     HULK: { label: "hulk", value: 100000 },
-  },
-  APIS: "APIS",
+	},
+	APIS: "APIS",
+	ENVS:"ENVS";
 });
 
 module.exports = Constants;
