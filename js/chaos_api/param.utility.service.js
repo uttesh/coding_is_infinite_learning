@@ -1,8 +1,8 @@
 const ConfigService = require("./config.service");
 const WordGenerator = require("./word.generator");
 const OtherData = require("./others.generator");
-const StoreService = require("./store.service");
 const Constants = require("./constants");
+const ParamBean = require("./param.bean");
 let configService, wordGenerator, otherData, storeService;
 class ParamUtilityService {
   constructor(storeInstance) {
@@ -13,22 +13,15 @@ class ParamUtilityService {
   }
 
   populateParamData(type) {
+    let paramBean = new ParamBean();
     const length =
       Math.floor(Math.random() * configService.getParamLength(type)) + 1;
-    storeService.put(Constants.Params.BLANK, this.populateValues(length, " "));
-    storeService.put(
-      Constants.Params.WORD,
-      wordGenerator.generateSingleWord(length)
-    );
-    storeService.put(
-      Constants.Params.PARAGRAPH,
-      wordGenerator.generateParagraph(length)
-    );
-    storeService.put(Constants.Params.NUMBER, otherData.generateNumber(length));
-    storeService.put(
-      Constants.Params.ALPHA_NUMERIC,
-      wordGenerator.generateAlphaNumeric(length)
-    );
+    paramBean.setBlank(this.populateValues(length, " "));
+    paramBean.setWord(wordGenerator.generateSingleWord(length));
+    paramBean.setParagraph(wordGenerator.generateParagraph(length));
+    paramBean.setNumber(otherData.generateNumber(length));
+    paramBean.setAlphaNumeric(wordGenerator.generateAlphaNumeric(length));
+    storeService.put("PARAM_" + type, paramBean);
     console.log("stored Data: ", storeService.getAll());
   }
 
@@ -40,6 +33,4 @@ class ParamUtilityService {
     return data;
   }
 }
-
-let paramTest = new ParamUtilityService(new StoreService());
-paramTest.populateParamData("large");
+module.exports = ParamUtilityService;
