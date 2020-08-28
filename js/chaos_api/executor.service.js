@@ -1,17 +1,28 @@
 const ParamUtilityService = require("./param.utility.service");
 const StoreService = require("./store.service");
+const HttpParserService = require("./http.parser.service");
 const Constants = require("./constants");
 class ExecutorService {
-  constructor() {}
-
-  init() {
-    let paramTest = new ParamUtilityService(new StoreService());
-    Object.keys(Constants.LengthTypes).forEach((key) => {
-      console.log("key::", key);
-    });
-    // paramTest.populateParamData("large");
+  constructor(jsonFile) {
+    this.jsonFile = jsonFile;
   }
+
+  async init() {
+    let storeService = new StoreService();
+    let paramTest = new ParamUtilityService(storeService);
+    Object.keys(Constants.LengthTypes).forEach((key) => {
+      paramTest.populateParamData(key.toLocaleLowerCase());
+    });
+    let httpParserService = new HttpParserService(storeService);
+    console.log("this.jsonFile:: ", this.jsonFile);
+    await httpParserService.parsePostManJson(this.jsonFile);
+    console.log("storeService:: apis", storeService.get(Constants.APIS));
+  }
+
+  processAPIs() {}
 }
 
-let executorService = new ExecutorService();
+let jsonFile =
+  "C:\\dev\\clients\\me\\coding_is_infinite_learning\\js\\chaos_api\\dit.postman_collection.json";
+let executorService = new ExecutorService(jsonFile);
 executorService.init();

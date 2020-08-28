@@ -22,7 +22,6 @@ class ParamUtilityService {
     paramBean.setNumber(otherData.generateNumber(length));
     paramBean.setAlphaNumeric(wordGenerator.generateAlphaNumeric(length));
     storeService.put("PARAM_" + type, paramBean);
-    console.log("stored Data: ", storeService.getAll());
   }
 
   populateValues(length, value) {
