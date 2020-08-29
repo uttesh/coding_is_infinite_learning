@@ -1,5 +1,4 @@
 var fs = require("fs");
-const StoreService = require("./store.service");
 const Constants = require("./constants");
 let storeService;
 class HttpParserService {
@@ -8,21 +7,23 @@ class HttpParserService {
   }
 
   async parsePostManJson(postmanFile) {
-    await this.processJSONFile(postmanFile, Constants.APIS);
+    return await this.processJSONFile(postmanFile, Constants.APIS);
   }
 
   async processJSONFile(filePath, type) {
-    fs.readFile(filePath, async (err, data) => {
+    return fs.readFile(filePath, async (err, data) => {
+      console.log("type :: ", type);
       if (data) {
         let postManObject = JSON.parse(data);
         if (type === Constants.APIS) {
           let items = postManObject.item;
           let apis = [];
           apis = await this.getAPI(items, apis);
-          storeService.put(Constants.APIS, apis);
+          console.log(apis.length);
+          return await storeService.put(Constants.APIS, apis);
         }
         if (type === Constants.ENVS) {
-          storeService.put(Constants.ENVS, data.values);
+          return await storeService.put(Constants.ENVS, data.values);
         }
       }
     });

@@ -4,15 +4,15 @@ class StoreService {
     dataMap = new Map();
   }
 
-  put(key, data) {
+  async put(key, data) {
     dataMap[key] = data;
   }
 
-  get(key) {
+  async get(key) {
     return dataMap[key];
   }
 
-  getAll() {
+  async getAll() {
     return dataMap;
   }
 }
