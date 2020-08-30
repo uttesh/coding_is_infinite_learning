@@ -7,25 +7,30 @@ class HttpParserService {
   }
 
   async parsePostManJson(postmanFile) {
-    return await this.processJSONFile(postmanFile, Constants.APIS);
+    await this.processJSONFile(postmanFile, Constants.APIS);
   }
 
   async processJSONFile(filePath, type) {
-    return fs.readFile(filePath, async (err, data) => {
-      console.log("type :: ", type);
-      if (data) {
-        let postManObject = JSON.parse(data);
-        if (type === Constants.APIS) {
-          let items = postManObject.item;
-          let apis = [];
-          apis = await this.getAPI(items, apis);
-          console.log(apis.length);
-          return await storeService.put(Constants.APIS, apis);
+    return new Promise((resolve, reject) => {
+      fs.readFile(filePath, async (err, data) => {
+        if (err) {
+          reject(err);
         }
-        if (type === Constants.ENVS) {
-          return await storeService.put(Constants.ENVS, data.values);
+        if (data) {
+          let postManObject = JSON.parse(data);
+          if (type === Constants.APIS) {
+            let items = postManObject.item;
+            let apis = [];
+            apis = await this.getAPI(items, apis);
+            await storeService.put(Constants.APIS, apis);
+            resolve(data);
+          }
+          if (type === Constants.ENVS) {
+            await storeService.put(Constants.ENVS, data.values);
+            resolve(data);
+          }
         }
-      }
+      });
     });
   }
 

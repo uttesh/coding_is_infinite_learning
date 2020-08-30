@@ -9,15 +9,15 @@ class ExecutorService {
 
   async init() {
     let storeService = new StoreService();
-    // let paramTest = new ParamUtilityService(storeService);
-    // Object.keys(Constants.LengthTypes).forEach((key) => {
-    //   paramTest.populateParamData(key.toLocaleLowerCase());
-    // });
-    let httpParserService = new HttpParserService(storeService);
-    console.log("this.jsonFile:: ", this.jsonFile);
-    await httpParserService.parsePostManJson(this.jsonFile).then((data) => {
-      console.log("promise :: ", storeService.getAll());
+    let paramTest = new ParamUtilityService(storeService);
+    Object.keys(Constants.LengthTypes).forEach((key) => {
+      paramTest.populateParamData(key.toLocaleLowerCase());
     });
+    let httpParserService = new HttpParserService(storeService);
+    await httpParserService.processJSONFile(this.jsonFile, Constants.APIS);
+    // storeService.get(Constants.APIS).then((data) => {
+    //   console.log("apis data: ", data);
+    // });
   }
 
   processAPIs() {}

@@ -32,7 +32,6 @@ function generate(words) {
   for (let i = 0; i < words; i++) {
     paragraph = getRandomWord() + " " + paragraph;
   }
-  console.log("paragraph: ", paragraph);
 }
 
 function getRandomWord() {
