@@ -5,25 +5,43 @@ const Constants = require("./constants");
 class ExecutorService {
   constructor(jsonFile) {
     this.jsonFile = jsonFile;
+    this.storeServiceInstance = new StoreService();
+  }
+
+  getStoreService() {
+    return this.storeServiceInstance;
   }
 
   async init() {
-    let storeService = new StoreService();
-    let paramTest = new ParamUtilityService(storeService);
+    let paramTest = new ParamUtilityService(this.getStoreService());
     Object.keys(Constants.LengthTypes).forEach((key) => {
       paramTest.populateParamData(key.toLocaleLowerCase());
     });
-    let httpParserService = new HttpParserService(storeService);
+    let httpParserService = new HttpParserService(this.getStoreService());
     await httpParserService.processJSONFile(this.jsonFile, Constants.APIS);
-    // storeService.get(Constants.APIS).then((data) => {
-    //   console.log("apis data: ", data);
-    // });
   }
 
-  processAPIs() {}
+  async processAPIs() {
+    this.getStoreService()
+      .get(Constants.APIS)
+      .then(async (data) => {
+        for (let i = 0; i < data.length; i++) {
+          await this.execteRequest(data[i]);
+        }
+      });
+  }
+
+  async execteRequest(request) {
+    console.log("request: ", request);
+    console.log("------------");
+  }
 }
 
 let jsonFile =
   "C:\\dev\\clients\\me\\coding_is_infinite_learning\\js\\chaos_api\\dit.postman_collection.json";
 let executorService = new ExecutorService(jsonFile);
-executorService.init();
+const exec = async () => {
+  await executorService.init();
+  await executorService.processAPIs();
+};
+exec();
