@@ -34,6 +34,24 @@ class ExecutorService {
   async execteRequest(request) {
     console.log("request: ", request);
     console.log("------------");
+    requestfields = getAllRequestFields(request);
+    // Constants.Params.forEach((paramType) => {
+    //   console.log("type:: ", paramType);
+    //   // this.processRequestParamters(request, paramType);
+    // });
+  }
+
+  getAllRequestFields(request) {
+    switch (request.method) {
+      case "POST":
+        break;
+      case "GET":
+        break;
+      case "PUT":
+        break;
+      case "DELETE":
+        break;
+    }
   }
 }
 
