@@ -32,9 +32,7 @@ class ExecutorService {
   }
 
   async execteRequest(request) {
-    console.log("request: ", request);
-    console.log("------------");
-    requestfields = getAllRequestFields(request);
+    this.getAllRequestFields(request);
     // Constants.Params.forEach((paramType) => {
     //   console.log("type:: ", paramType);
     //   // this.processRequestParamters(request, paramType);
@@ -44,6 +42,12 @@ class ExecutorService {
   getAllRequestFields(request) {
     switch (request.method) {
       case "POST":
+        console.log("POST ");
+        let body = request.body;
+        console.log("body.mode:  ", body.mode);
+        if (body.mode === "raw") {
+          console.log("raw request body: ", body.raw);
+        }
         break;
       case "GET":
         break;
