@@ -44,9 +44,13 @@ class ExecutorService {
       case "POST":
         console.log("POST ");
         let body = request.body;
-        console.log("body.mode:  ", body.mode);
+        // console.log("body.mode:  ", body.mode);
         if (body.mode === "raw") {
-          console.log("raw request body: ", body.raw);
+          // console.log("raw request body: ", body.raw);
+          let rawObject = JSON.parse(body.raw);
+          let fields = Object.keys(rawObject).join(",");
+          console.log("request:::url ", request.url);
+          console.log("fields::: ", fields);
         }
         break;
       case "GET":
