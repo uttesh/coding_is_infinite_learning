@@ -32,25 +32,23 @@ class ExecutorService {
   }
 
   async execteRequest(request) {
-    this.getAllRequestFields(request);
+    let fileds = await this.getAllRequestFields(request);
+    console.log("fileds::: ", fileds);
     // Constants.Params.forEach((paramType) => {
     //   console.log("type:: ", paramType);
     //   // this.processRequestParamters(request, paramType);
     // });
   }
 
-  getAllRequestFields(request) {
+  async getAllRequestFields(request) {
     switch (request.method) {
       case "POST":
         console.log("POST ");
         let body = request.body;
-        // console.log("body.mode:  ", body.mode);
         if (body.mode === "raw") {
-          // console.log("raw request body: ", body.raw);
           let rawObject = JSON.parse(body.raw);
           let fields = Object.keys(rawObject).join(",");
-          console.log("request:::url ", request.url);
-          console.log("fields::: ", fields);
+          return fields;
         }
         break;
       case "GET":
