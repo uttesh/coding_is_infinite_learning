@@ -50,8 +50,16 @@ app.get("/", (req, res) => {
 
 app.post("/user", create);
 
+// Retrieve all Notes
+app.get("/users", findAll);
+
 // CRUD functions
 
+/**
+ * Create user
+ * @param {*} req
+ * @param {*} res
+ */
 function create(req, res) {
   // Validate request
   console.log("req.body: ", req.body);
@@ -81,6 +89,27 @@ function create(req, res) {
       });
     });
 }
+
+// Find All
+/**
+ * GEt all the users
+ * @param {*} req
+ * @param {*} res
+ */
+function findAll(req, res) {
+  User.find()
+    .then((users) => {
+      res.send(users);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          error.message || "Some error occurred while retrieving the users",
+      });
+    });
+}
+
+//
 
 app.listen(3000, () => {
   console.log("Simple CRUD server listening at port 3000");
