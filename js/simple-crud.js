@@ -48,10 +48,19 @@ app.get("/", (req, res) => {
   console.log("Welcome to the simple crud application.......");
 });
 
-app.post("/user", create);
+app.post("/users", create);
 
 // Retrieve all Notes
 app.get("/users", findAll);
+
+// Retrieve user by email
+app.get("/users/:email", findOne);
+
+// // Update user by email
+// app.put("/users/:email", update);
+
+// // Delete user by email
+// app.delete("/users/:email", deleteUser);
 
 // CRUD functions
 
@@ -109,7 +118,43 @@ function findAll(req, res) {
     });
 }
 
-//
+// Find user
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+function findOne(req, res) {
+  console.log("req.params:: ", req.params);
+  User.findOne({ email: req.params.email })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          error.message || "Some error occurred while retrieving the user",
+      });
+    });
+}
+
+// update user record
+
+function update(req, res) {
+  User.findByIdAndUpdate(req.params.id, req.body.content, { new: true })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "User not found" + req.params.id,
+        });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).send({
+        message: "Error while updaing the user:" + req.params.id,
+      });
+    });
+}
 
 app.listen(3000, () => {
   console.log("Simple CRUD server listening at port 3000");
