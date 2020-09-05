@@ -60,8 +60,8 @@ app.get("/users/:email", findOne);
 // // Update user by email
 app.put("/users/:id", update);
 
-// // Delete user by email
-// app.delete("/users/:email", deleteUser);
+// Delete user by email
+app.delete("/users/:id", remove);
 
 // CRUD functions
 
@@ -163,6 +163,18 @@ function update(req, res) {
     .catch((error) => {
       return res.status(500).send({
         message: "Error while updaing the user:" + req.params.id,
+      });
+    });
+}
+
+function remove(req, res) {
+  User.findByIdAndDelete(req.params.id)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: "Error occurred while deleting the user id:" + req.params.id,
       });
     });
 }
