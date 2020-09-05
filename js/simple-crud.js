@@ -13,6 +13,7 @@ mongoose
   .connect(dburl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log("Successfully connect to DB.....");
@@ -57,7 +58,7 @@ app.get("/users", findAll);
 app.get("/users/:email", findOne);
 
 // // Update user by email
-// app.put("/users/:email", update);
+app.put("/users/:id", update);
 
 // // Delete user by email
 // app.delete("/users/:email", deleteUser);
@@ -147,12 +148,16 @@ function findOne(req, res) {
 // update user record
 
 function update(req, res) {
-  User.findByIdAndUpdate(req.params.id, req.body.content, { new: true })
+  console.log("req.params:: ", req.params);
+  console.log("req.body:: ", req.body);
+  User.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((data) => {
       if (!data) {
         return res.status(404).send({
           message: "User not found" + req.params.id,
         });
+      } else {
+        res.send(data);
       }
     })
     .catch((error) => {
