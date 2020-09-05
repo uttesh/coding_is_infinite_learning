@@ -128,7 +128,13 @@ function findOne(req, res) {
   console.log("req.params:: ", req.params);
   User.findOne({ email: req.params.email })
     .then((data) => {
-      res.send(data);
+      if (!data) {
+        return res.status(404).send({
+          message: "User not found " + req.params.email,
+        });
+      } else {
+        res.send(data);
+      }
     })
     .catch((error) => {
       res.status(500).send({
