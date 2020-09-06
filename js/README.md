@@ -19,3 +19,8 @@
 # generate reports
 
 # make npm library and document the changes
+
+# Pending
+
+1. Use the simple-crud API for the executor service testing and implementation
+2. Populate the dynamic parameters based on tje request body/parameter.
