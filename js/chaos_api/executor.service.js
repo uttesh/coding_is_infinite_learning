@@ -52,6 +52,20 @@ class ExecutorService {
         }
         break;
       case "GET":
+        console.log("GET request:");
+        let query = request.url.query;
+        let fields = "";
+        if (query) {
+          query.forEach((item) => {
+            if (fields) {
+              fields = fields + "," + item.key;
+            } else {
+              fields = item.key;
+            }
+          });
+          console.log("query params :", fields);
+          return fields;
+        }
         break;
       case "PUT":
         break;
@@ -62,7 +76,7 @@ class ExecutorService {
 }
 
 let jsonFile =
-  "C:\\dev\\clients\\me\\coding_is_infinite_learning\\js\\chaos_api\\dit.postman_collection.json";
+  "C:\\dev\\clients\\me\\coding_is_infinite_learning\\js\\chaos_api\\simple-crud.postman_collection.json";
 let executorService = new ExecutorService(jsonFile);
 const exec = async () => {
   await executorService.init();
