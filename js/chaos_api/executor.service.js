@@ -57,11 +57,7 @@ class ExecutorService {
         let fields = "";
         if (query) {
           query.forEach((item) => {
-            if (fields) {
-              fields = fields + "," + item.key;
-            } else {
-              fields = item.key;
-            }
+            fields = fields ? fields + "," + item.key : item.key;
           });
           console.log("query params :", fields);
           return fields;
