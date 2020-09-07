@@ -43,7 +43,6 @@ class ExecutorService {
   async getAllRequestFields(request) {
     switch (request.method) {
       case "POST":
-        console.log("POST ");
         let body = request.body;
         if (body.mode === "raw") {
           let rawObject = JSON.parse(body.raw);
@@ -52,20 +51,25 @@ class ExecutorService {
         }
         break;
       case "GET":
-        console.log("GET request:");
         let query = request.url.query;
         let fields = "";
         if (query) {
           query.forEach((item) => {
             fields = fields ? fields + "," + item.key : item.key;
           });
-          console.log("query params :", fields);
           return fields;
         }
         break;
       case "PUT":
+        let putbody = request.body;
+        if (putbody.mode === "raw") {
+          let rawObject = JSON.parse(putbody.raw);
+          let fields = Object.keys(rawObject).join(",");
+          return fields;
+        }
         break;
       case "DELETE":
+        console.log("not support for now...");
         break;
     }
   }
