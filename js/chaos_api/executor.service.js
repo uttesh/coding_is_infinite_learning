@@ -1,11 +1,14 @@
 const ParamUtilityService = require("./param.utility.service");
 const StoreService = require("./store.service");
 const HttpParserService = require("./http.parser.service");
+const HttpService = require("./http.service");
 const Constants = require("./constants");
+
 class ExecutorService {
   constructor(jsonFile) {
     this.jsonFile = jsonFile;
     this.storeServiceInstance = new StoreService();
+    this.httpService = new HttpService();
   }
 
   getStoreService() {
@@ -34,15 +37,24 @@ class ExecutorService {
   async execteRequest(request) {
     let fileds = await this.getAllRequestFields(request);
     console.log("fileds::: ", fileds);
+    switch (request.method) {
+      case Constants.HTTP_PARAMS.METHODS.POST:
+        this.executePostRequest(request);
+        break;
+    }
     // Constants.Params.forEach((paramType) => {
     //   console.log("type:: ", paramType);
     //   // this.processRequestParamters(request, paramType);
     // });
   }
 
+  async executePostRequest(request) {
+    this.httpService.post(request);
+  }
+
   async getAllRequestFields(request) {
     switch (request.method) {
-      case "POST":
+      case Constants.HTTP_PARAMS.METHODS.POST:
         let body = request.body;
         if (body.mode === "raw") {
           let rawObject = JSON.parse(body.raw);
@@ -50,7 +62,7 @@ class ExecutorService {
           return fields;
         }
         break;
-      case "GET":
+      case Constants.HTTP_PARAMS.METHODS.GET:
         let query = request.url.query;
         let fields = "";
         if (query) {
@@ -60,7 +72,7 @@ class ExecutorService {
           return fields;
         }
         break;
-      case "PUT":
+      case Constants.HTTP_PARAMS.METHODS.PUT:
         let putbody = request.body;
         if (putbody.mode === "raw") {
           let rawObject = JSON.parse(putbody.raw);
@@ -68,7 +80,7 @@ class ExecutorService {
           return fields;
         }
         break;
-      case "DELETE":
+      case Constants.HTTP_PARAMS.METHODS.DELETE:
         console.log("not support for now...");
         break;
     }

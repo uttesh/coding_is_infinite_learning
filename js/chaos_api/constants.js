@@ -17,6 +17,14 @@ const Constants = Object.freeze({
   },
   APIS: "APIS",
   ENVS: "ENVS",
+  HTTP_PARAMS: {
+    METHODS: {
+      POST: "POST",
+      GET: "GET",
+      PUT: "PUT",
+      DELETE: "DELETE",
+    },
+  },
 });
 
 module.exports = Constants;

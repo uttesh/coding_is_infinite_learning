@@ -13,18 +13,19 @@ class HttpService {
     }
   }
 
-  async post(url, data) {
-    await fetch(url, {
-      method: "POST",
-      headers: getHeaders(),
-      body: populateData(),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((json) => {
-        console.log(json);
-      });
+  async post(request) {
+    console.log(request);
+    // await fetch(url, {
+    //   method: "POST",
+    //   headers: getHeaders(),
+    //   body: populateData(),
+    // })
+    //   .then((res) => {
+    //     return res.json();
+    //   })
+    //   .then((json) => {
+    //     console.log(json);
+    //   });
   }
 
   async getHeaders() {
@@ -64,5 +65,6 @@ class HttpService {
   }
 }
 
-let httpService = new HttpService();
-httpService.get("http://google.com", "");
+// let httpService = new HttpService();
+// httpService.get("http://google.com", "");
+module.exports = HttpService;
