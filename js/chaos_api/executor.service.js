@@ -81,7 +81,6 @@ class ExecutorService {
         }
         break;
       case Constants.HTTP_PARAMS.METHODS.DELETE:
-        console.log("not support for now...");
         break;
     }
   }

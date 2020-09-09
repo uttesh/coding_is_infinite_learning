@@ -15,9 +15,15 @@ class HttpService {
 
   async post(request) {
     console.log(request);
-    // await fetch(url, {
+    let headers = this.getHeaders();
+    if (request.auth) {
+      headers["Authorization"] =
+        request.auth.type + " " + JSON.stringify(request.auth.bearer[0]);
+    }
+    console.log("auth header::", headers);
+    // await fetch(request.url, {
     //   method: "POST",
-    //   headers: getHeaders(),
+    //   headers: getHeaders(request),
     //   body: populateData(),
     // })
     //   .then((res) => {
@@ -28,7 +34,7 @@ class HttpService {
     //   });
   }
 
-  async getHeaders() {
+  async getHeaders(request) {
     const headers = {
       "Content-Type": "application/json",
     };
