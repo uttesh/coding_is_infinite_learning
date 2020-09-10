@@ -1,7 +1,13 @@
 const fetch = require("node-fetch");
-
+const Constants = require("./constants");
 class HttpService {
-  constructor() {}
+  constructor(storeServiceInstance) {
+    this.storeServiceInstance = storeServiceInstance;
+  }
+  getStoreService() {
+    return this.storeServiceInstance;
+  }
+
   async get(url, option) {
     try {
       return await fetch(url)
@@ -17,8 +23,9 @@ class HttpService {
     console.log(request);
     let headers = this.getHeaders();
     if (request.auth) {
-      headers["Authorization"] =
-        request.auth.type + " " + JSON.stringify(request.auth.bearer[0]);
+      // headers["Authorization"] =
+      //   request.auth.type + " " + JSON.stringify(request.auth.bearer[0]);
+      this.getAuthHeader(request);
     }
     console.log("auth header::", headers);
     // await fetch(request.url, {
@@ -32,6 +39,20 @@ class HttpService {
     //   .then((json) => {
     //     console.log(json);
     //   });
+  }
+
+  async getAuthHeader(request) {
+    console.log("request.auth.bearer :: ", request.auth.bearer);
+    if (request.auth.bearer.length > 0) {
+      let bearer = request.auth.bearer[0];
+      console.log("bearer: ", bearer);
+      this.getStoreService()
+        .get(Constants.ENVS)
+        .then(async (data) => {
+          console.log("");
+        });
+      // console.log("getStoreService:: ", this.getStoreService().get());
+    }
   }
 
   async getHeaders(request) {

@@ -8,7 +8,7 @@ class ExecutorService {
   constructor(jsonFile) {
     this.jsonFile = jsonFile;
     this.storeServiceInstance = new StoreService();
-    this.httpService = new HttpService();
+    this.httpService = new HttpService(this.storeServiceInstance);
   }
 
   getStoreService() {
