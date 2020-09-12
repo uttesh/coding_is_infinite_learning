@@ -5,8 +5,9 @@ const HttpService = require("./http.service");
 const Constants = require("./constants");
 
 class ExecutorService {
-  constructor(jsonFile) {
-    this.jsonFile = jsonFile;
+  constructor(apisFile, environmentFile) {
+    this.apisFile = apisFile;
+    this.environmentFile = environmentFile;
     this.storeServiceInstance = new StoreService();
     this.httpService = new HttpService(this.storeServiceInstance);
   }
@@ -21,7 +22,11 @@ class ExecutorService {
       paramTest.populateParamData(key.toLocaleLowerCase());
     });
     let httpParserService = new HttpParserService(this.getStoreService());
-    await httpParserService.processJSONFile(this.jsonFile, Constants.APIS);
+    await httpParserService.processJSONFile(this.apisFile, Constants.APIS);
+    await httpParserService.processJSONFile(
+      this.environmentFile,
+      Constants.ENVS
+    );
   }
 
   async processAPIs() {
@@ -88,7 +93,9 @@ class ExecutorService {
 
 let jsonFile =
   "C:\\dev\\clients\\me\\coding_is_infinite_learning\\js\\chaos_api\\simple-crud.postman_collection.json";
-let executorService = new ExecutorService(jsonFile);
+let environmentFile =
+  "C:\\dev\\clients\\me\\coding_is_infinite_learning\\js\\chaos_api\\simple-crud.postman_environment.json";
+let executorService = new ExecutorService(jsonFile, environmentFile);
 const exec = async () => {
   await executorService.init();
   await executorService.processAPIs();
