@@ -45,16 +45,25 @@ class HttpService {
     console.log("request.auth.bearer :: ", request.auth.bearer);
     if (request.auth.bearer.length > 0) {
       let bearer = request.auth.bearer[0];
-      console.log("bearer: ", bearer);
-      this.getStoreService()
-        .get(Constants.ENVS)
-        .then(async (data) => {
-          console.log("data :: ", data);
-          for (let i = 0; i < data.length; i++) {
-            console.log("env data :::", data[i]);
-          }
-        });
-      // console.log("getStoreService:: ", this.getStoreService().get());
+      if (bearer) {
+        console.log("bearer: value", bearer.value);
+        if (bearer.value && bearer.value.indexOf("{") != -1) {
+          let orginalEnvKey = bearer.value.substring(
+            2,
+            bearer.value.length - 2
+          );
+          console.log("orginalEnvKey:: ", orginalEnvKey);
+          this.getStoreService()
+            .get(Constants.ENVS)
+            .then(async (data) => {
+              console.log("data :: ", data);
+              for (let i = 0; i < data.length; i++) {
+                console.log("env data :::", data[i]);
+              }
+            });
+          // console.log("getStoreService:: ", this.getStoreService().get());
+        }
+      }
     }
   }
 
