@@ -26,7 +26,7 @@ class HttpParserService {
             resolve(data);
           }
           if (type === Constants.ENVS) {
-            await storeService.put(Constants.ENVS, data.values);
+            await storeService.put(Constants.ENVS, postManObject.values);
             resolve(data);
           }
         }

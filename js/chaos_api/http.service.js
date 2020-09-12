@@ -49,7 +49,10 @@ class HttpService {
       this.getStoreService()
         .get(Constants.ENVS)
         .then(async (data) => {
-          console.log("");
+          console.log("data :: ", data);
+          for (let i = 0; i < data.length; i++) {
+            console.log("env data :::", data[i]);
+          }
         });
       // console.log("getStoreService:: ", this.getStoreService().get());
     }
