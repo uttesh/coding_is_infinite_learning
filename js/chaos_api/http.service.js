@@ -29,7 +29,6 @@ class HttpService {
         request.auth.type + " " + (await this.getAuthHeader(request));
     }
     console.log("auth header::", headers);
-    console.log("populate Data: ", this.populateData());
     let requestObject = {};
     if (request.body) {
       let requestBody = request.body;
@@ -40,10 +39,11 @@ class HttpService {
       }
     }
     console.log("requestObject :", requestObject);
+    console.log("getURL :: ", this.getURL(request));
     // await fetch(request.url, {
     //   method: "POST",
-    //   headers: getHeaders(request),
-    //   body: populateData(),
+    //   headers: headers,
+    //   body: requestObject,
     // })
     //   .then((res) => {
     //     return res.json();
@@ -72,6 +72,13 @@ class HttpService {
         }
       }
     }
+  }
+
+  async getURL(request) {
+    let url = request.url.raw;
+    console.log("url :: ", url.split("/"));
+    let urlEnvParams = url.split("/").filter((item) => item.indexOf("{") != -1);
+    console.log("urlEnvParams:: ", urlEnvParams);
   }
 
   async getHeaders(request) {
