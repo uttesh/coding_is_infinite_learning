@@ -1,8 +1,10 @@
 const fetch = require("node-fetch");
 const Constants = require("./constants");
+const UtilityService = require("./utility.service");
 class HttpService {
   constructor(storeServiceInstance) {
     this.storeServiceInstance = storeServiceInstance;
+    this.utilityService = new UtilityService();
   }
   getStoreService() {
     return this.storeServiceInstance;
@@ -23,9 +25,8 @@ class HttpService {
     console.log(request);
     let headers = this.getHeaders();
     if (request.auth) {
-      // headers["Authorization"] =
-      //   request.auth.type + " " + JSON.stringify(request.auth.bearer[0]);
-      this.getAuthHeader(request);
+      headers["Authorization"] =
+        request.auth.type + " " + (await this.getAuthHeader(request));
     }
     console.log("auth header::", headers);
     // await fetch(request.url, {
@@ -42,26 +43,21 @@ class HttpService {
   }
 
   async getAuthHeader(request) {
-    console.log("request.auth.bearer :: ", request.auth.bearer);
     if (request.auth.bearer.length > 0) {
       let bearer = request.auth.bearer[0];
       if (bearer) {
-        console.log("bearer: value", bearer.value);
         if (bearer.value && bearer.value.indexOf("{") != -1) {
-          let orginalEnvKey = bearer.value.substring(
-            2,
-            bearer.value.length - 2
+          let orginalEnvKey = await this.utilityService.getEnvironmentKey(
+            bearer.value
           );
-          console.log("orginalEnvKey:: ", orginalEnvKey);
-          this.getStoreService()
+          return this.getStoreService()
             .get(Constants.ENVS)
             .then(async (data) => {
-              console.log("data :: ", data);
-              for (let i = 0; i < data.length; i++) {
-                console.log("env data :::", data[i]);
-              }
+              let keyObject = data.filter((item) => item.key === orginalEnvKey);
+              if (keyObject && keyObject.length > 0) return keyObject[0].value;
             });
-          // console.log("getStoreService:: ", this.getStoreService().get());
+        } else {
+          return bearer.value;
         }
       }
     }
