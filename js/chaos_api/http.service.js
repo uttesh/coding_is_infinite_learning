@@ -29,6 +29,17 @@ class HttpService {
         request.auth.type + " " + (await this.getAuthHeader(request));
     }
     console.log("auth header::", headers);
+    console.log("populate Data: ", this.populateData());
+    let requestObject = {};
+    if (request.body) {
+      let requestBody = request.body;
+      switch (requestBody.mode) {
+        case "raw":
+          requestObject = JSON.parse(requestBody.raw);
+          break;
+      }
+    }
+    console.log("requestObject :", requestObject);
     // await fetch(request.url, {
     //   method: "POST",
     //   headers: getHeaders(request),
