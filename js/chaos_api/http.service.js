@@ -5,7 +5,13 @@ class HttpService {
   constructor(storeServiceInstance) {
     this.storeServiceInstance = storeServiceInstance;
     this.utilityService = new UtilityService();
+    this.envList = [];
+    this.storeServiceInstance.get(Constants.ENVS).then((data) => {
+      console.log("envListenvListenvListenvListenvListenvList :: ", data);
+      this.envList = data;
+    });
   }
+
   getStoreService() {
     return this.storeServiceInstance;
   }
@@ -78,7 +84,11 @@ class HttpService {
     let url = request.url.raw;
     console.log("url :: ", url.split("/"));
     let urlEnvParams = url.split("/").filter((item) => item.indexOf("{") != -1);
-    console.log("urlEnvParams:: ", urlEnvParams);
+    urlEnvParams.forEach((element) => {
+      console.log("element:: ", element);
+      let key = this.utilityService.getEnvironmentKey(element);
+      console.log("env list: ", this.envList);
+    });
   }
 
   async getHeaders(request) {
