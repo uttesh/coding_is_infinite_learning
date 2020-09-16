@@ -15,6 +15,7 @@
 
 <ol>
 <li>Execute the REST requests.</li>
+<li>Populate each request on the field level</li>
 <li>generate reports</li>
 <li>make npm library and document the changes</li>
 </ol>
