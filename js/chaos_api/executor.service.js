@@ -9,7 +9,6 @@ class ExecutorService {
     this.apisFile = apisFile;
     this.environmentFile = environmentFile;
     this.storeServiceInstance = new StoreService();
-    this.httpService = new HttpService(this.storeServiceInstance);
   }
 
   getStoreService() {
@@ -30,9 +29,14 @@ class ExecutorService {
   }
 
   async processAPIs() {
+    this.httpService = new HttpService(this.storeServiceInstance);
     this.getStoreService()
       .get(Constants.APIS)
       .then(async (data) => {
+        console.log(
+          "env values after process : ",
+          this.getStoreService().get(Constants.ENVS)
+        );
         for (let i = 0; i < data.length; i++) {
           await this.execteRequest(data[i]);
         }
