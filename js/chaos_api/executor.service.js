@@ -33,10 +33,6 @@ class ExecutorService {
     this.getStoreService()
       .get(Constants.APIS)
       .then(async (data) => {
-        console.log(
-          "env values after process : ",
-          this.getStoreService().get(Constants.ENVS)
-        );
         for (let i = 0; i < data.length; i++) {
           await this.execteRequest(data[i]);
         }

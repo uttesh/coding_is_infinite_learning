@@ -7,7 +7,6 @@ class HttpService {
     this.utilityService = new UtilityService();
     this.envList = [];
     this.storeServiceInstance.get(Constants.ENVS).then((data) => {
-      console.log("envListenvListenvListenvListenvListenvList :: ", data);
       this.envList = data;
     });
   }
@@ -87,7 +86,9 @@ class HttpService {
     urlEnvParams.forEach((element) => {
       console.log("element:: ", element);
       let key = this.utilityService.getEnvironmentKey(element);
+      console.log("key:: ", key);
       console.log("env list: ", this.envList);
+      let value = this.envList.filter((item) => item.key);
     });
   }
 
