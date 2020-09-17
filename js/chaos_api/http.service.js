@@ -85,10 +85,12 @@ class HttpService {
     let urlEnvParams = url.split("/").filter((item) => item.indexOf("{") != -1);
     urlEnvParams.forEach((element) => {
       console.log("element:: ", element);
-      let key = this.utilityService.getEnvironmentKey(element);
-      console.log("key:: ", key);
-      console.log("env list: ", this.envList);
-      let value = this.envList.filter((item) => item.key);
+      let key = this.utilityService.getEnvironmentKey(element).then((data) => {
+        console.log("key:: ", data);
+        console.log("env list: ", this.envList);
+        let Keyvalue = this.envList.filter((item) => item.key === data);
+        console.log("Keyvalue:: ", Keyvalue[0].value);
+      });
     });
   }
 
