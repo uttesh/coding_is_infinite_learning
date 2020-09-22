@@ -45,21 +45,25 @@ class HttpService {
     }
     console.log("requestObject :", requestObject);
     console.log("getURL :: ", this.getURL(request));
-    // await fetch(request.url, {
-    //   method: "POST",
-    //   headers: headers,
-    //   body: requestObject,
-    // })
-    //   .then((res) => {
-    //     return res.json();
-    //   })
-    //   .then((json) => {
-    //     console.log(json);
-    //   });
+    await fetch(this.getURL(request), {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestObject),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        console.log("then second res::", json);
+        console.log(json);
+      });
   }
 
   async getAuthHeader(request) {
-    if (request.auth.bearer.length > 0) {
+    if (request.auth.bearer && request.auth.bearer.length > 0) {
       let bearer = request.auth.bearer[0];
       if (bearer) {
         if (bearer.value && bearer.value.indexOf("{") != -1) {
@@ -79,23 +83,14 @@ class HttpService {
     }
   }
 
-  async getURL(request) {
+  getURL(request) {
     let url = request.url.raw;
-    console.log("url :: ", url.split("/"));
-    let urlEnvParams = url.split("/").filter((item) => item.indexOf("{") != -1);
-    urlEnvParams.forEach((element) => {
-      console.log("element:: ", element);
-      let key = this.utilityService.getEnvironmentKey(element).then((data) => {
-        console.log("key:: ", data);
-        console.log("env list: ", this.envList);
-        let Keyvalue = this.envList.filter((item) => item.key === data);
-        console.log("Keyvalue:: ", Keyvalue[0].value);
-      });
-    });
+    return this.utilityService.populateEnvValues("url", url, this.envList);
   }
 
   async getHeaders(request) {
-    const headers = {
+    let headers = {
+      Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
     };
     return headers;

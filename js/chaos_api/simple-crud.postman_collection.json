@@ -9,14 +9,7 @@
 			"name": "create user",
 			"request": {
 				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "POST",
 				"header": [],
@@ -30,13 +23,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}/user",
+					"raw": "http://{{host}}/users/",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"user"
+						"users",
+						""
 					]
 				}
 			},
