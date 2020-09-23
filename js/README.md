@@ -9,12 +9,13 @@
 <li>Add Executor service.</li>
 <li>Use the simple-crud API for the executor service testing and implementation</li>
 <li> Populate the dynamic parameters based on tje request body/parameter.</li>
+<li>Execute the REST requests.</li>
 </ol>
 
 # Pending
 
 <ol>
-<li>Execute the REST requests.</li>
+
 <li>Populate each request on the field level</li>
 <li>generate reports</li>
 <li>make npm library and document the changes</li>
