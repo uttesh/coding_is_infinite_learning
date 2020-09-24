@@ -7,7 +7,7 @@
 <li>Added http parser for the postman json file.</li>
 <li>Integrate the postman json changes with the HTTP API executor.</li>
 <li>Add Executor service.</li>
-<li>Use the simple-crud API for the executor service testing and implementation</li>
+<li>Use the simple-crud API for the executor service testing and implementation.</li>
 <li> Populate the dynamic parameters based on tje request body/parameter.</li>
 <li>Execute the REST requests.</li>
 </ol>
@@ -16,6 +16,7 @@
 
 <ol>
 <li>Process each field to populate the request body for the post calls</li>
+<li>Prepare all other http calls for the execution </li>
 <li>Populate each request on the field level</li>
 <li>generate reports</li>
 <li>make npm library and document the changes</li>
