@@ -3,7 +3,7 @@ const StoreService = require("./store.service");
 const HttpParserService = require("./http.parser.service");
 const HttpService = require("./http.service");
 const Constants = require("./constants");
-
+const RequestBean = require("./request.bean");
 class ExecutorService {
   constructor(apisFile, environmentFile) {
     this.apisFile = apisFile;
@@ -40,8 +40,8 @@ class ExecutorService {
   }
 
   async execteRequest(request) {
-    let fileds = await this.getAllRequestFields(request);
-    console.log("fileds::: ", fileds);
+    let requestBean = await this.getAllRequestFields(request);
+    console.log("requestBean::: ", requestBean);
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
         this.executePostRequest(request);
@@ -64,7 +64,8 @@ class ExecutorService {
         if (body.mode === "raw") {
           let rawObject = JSON.parse(body.raw);
           let fields = Object.keys(rawObject).join(",");
-          return fields;
+          let requestBean = new RequestBean(rawObject, fields);
+          return requestBean;
         }
         break;
       case Constants.HTTP_PARAMS.METHODS.GET:
@@ -74,7 +75,8 @@ class ExecutorService {
           query.forEach((item) => {
             fields = fields ? fields + "," + item.key : item.key;
           });
-          return fields;
+          let requestBean = new RequestBean(query, fields);
+          return requestBean;
         }
         break;
       case Constants.HTTP_PARAMS.METHODS.PUT:
@@ -82,7 +84,8 @@ class ExecutorService {
         if (putbody.mode === "raw") {
           let rawObject = JSON.parse(putbody.raw);
           let fields = Object.keys(rawObject).join(",");
-          return fields;
+          let requestBean = new RequestBean(rawObject, fields);
+          return requestBean;
         }
         break;
       case Constants.HTTP_PARAMS.METHODS.DELETE:
