@@ -44,13 +44,24 @@ class ExecutorService {
     console.log("requestBean::: ", requestBean);
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
-        this.executePostRequest(request);
+        if (requestBean.fields && requestBean.fields.length > 0) {
+          requestBean.fields.split(",").forEach((field) => {
+            if (field) {
+              console.log("field :: ", field);
+              Object.keys(Constants.Params).forEach((paramType) => {
+                console.log("param type:: ", paramType);
+              });
+              // Constants.Params.keys.forEach((paramType) => {
+              //   console.log("type:: ", paramType);
+              //   // this.processRequestParamters(request, paramType);
+              // });
+              // this.executePostRequest(request);
+            }
+          });
+        }
+
         break;
     }
-    // Constants.Params.forEach((paramType) => {
-    //   console.log("type:: ", paramType);
-    //   // this.processRequestParamters(request, paramType);
-    // });
   }
 
   async executePostRequest(request) {
