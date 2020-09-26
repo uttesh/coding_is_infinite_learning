@@ -50,17 +50,27 @@ class ExecutorService {
               console.log("field :: ", field);
               Object.keys(Constants.Params).forEach((paramType) => {
                 console.log("param type:: ", paramType);
+                this.processPostRequestFieldValue(request, field, paramType);
               });
-              // Constants.Params.keys.forEach((paramType) => {
-              //   console.log("type:: ", paramType);
-              //   // this.processRequestParamters(request, paramType);
-              // });
               // this.executePostRequest(request);
             }
           });
         }
 
         break;
+    }
+  }
+
+  processPostRequestFieldValue(request, field, type) {
+    if (request.body) {
+      let requestObject = {};
+      let requestBody = request.body;
+      switch (requestBody.mode) {
+        case "raw":
+          requestObject = JSON.parse(requestBody.raw);
+          console.log("requestObject :: ", requestObject);
+          break;
+      }
     }
   }
 
