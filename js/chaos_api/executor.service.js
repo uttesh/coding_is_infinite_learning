@@ -39,13 +39,11 @@ class ExecutorService {
 
   async execteRequest(request) {
     let requestBean = await this.getAllRequestFields(request);
-    console.log("requestBean::: ", requestBean);
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
         if (requestBean.fields && requestBean.fields.length > 0) {
           requestBean.fields.split(",").forEach((field) => {
             if (field) {
-              console.log("field :: ", field);
               Object.keys(Constants.LengthTypes).forEach((paramType) => {
                 this.processPostRequestFieldValue(
                   request,
@@ -69,12 +67,16 @@ class ExecutorService {
       switch (requestBody.mode) {
         case "raw":
           requestObject = JSON.parse(requestBody.raw);
-          // console.log("requestObject :: ", requestObject);
-          console.log("type :: ", "PARAM_" + type.label);
           let paramBean = await this.getStoreService().get(
             "PARAM_" + type.label
           );
-          console.log("paramBean :: ", paramBean);
+          Object.keys(paramBean).forEach((value) => {
+            console.log("TYPE: ", field, "VALUE: ", value);
+            requestObject[field] = paramBean[value];
+            requestBody.raw = JSON.stringify(requestObject);
+            console.log("after :: request :: ", request);
+          });
+
           break;
       }
     }
