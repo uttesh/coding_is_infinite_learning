@@ -62,21 +62,20 @@ class ExecutorService {
 
   async processPostRequestFieldValue(request, field, type) {
     if (request.body) {
-      let requestObject = {};
       let requestBody = request.body;
       switch (requestBody.mode) {
         case "raw":
-          requestObject = JSON.parse(requestBody.raw);
           let paramBean = await this.getStoreService().get(
             "PARAM_" + type.label
           );
           Object.keys(paramBean).forEach((value) => {
-            console.log("TYPE: ", field, "VALUE: ", value);
+            let requestObject = {};
+            requestObject = JSON.parse(requestBody.raw);
             requestObject[field] = paramBean[value];
             requestBody.raw = JSON.stringify(requestObject);
-            console.log("after :: request :: ", request);
+            request.body = requestBody;
+            this.executePostRequest(request);
           });
-
           break;
       }
     }
