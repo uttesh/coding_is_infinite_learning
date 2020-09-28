@@ -42,20 +42,20 @@ class ExecutorService {
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
         if (requestBean.fields && requestBean.fields.length > 0) {
-          requestBean.fields.split(",").forEach((field) => {
-            if (field) {
-              Object.keys(Constants.LengthTypes).forEach((paramType) => {
-                this.processPostRequestFieldValue(
+          const fields = requestBean.fields.split(",");
+          for (let i = 0; i < fields.length; i++) {
+            if (fields[i]) {
+              const paramTypes = Object.keys(Constants.LengthTypes);
+              for (let p = 0; p < paramTypes.length; p++) {
+                await this.processPostRequestFieldValue(
                   request,
-                  field,
-                  Constants.LengthTypes[paramType]
+                  fields[i],
+                  Constants.LengthTypes[paramTypes[p]]
                 );
-              });
-              // this.executePostRequest(request);
+              }
             }
-          });
+          }
         }
-
         break;
     }
   }
@@ -68,21 +68,22 @@ class ExecutorService {
           let paramBean = await this.getStoreService().get(
             "PARAM_" + type.label
           );
-          Object.keys(paramBean).forEach((value) => {
+          const paramKeys = Object.keys(paramBean);
+          for (let pk = 0; pk < paramKeys.length; pk++) {
             let requestObject = {};
             requestObject = JSON.parse(requestBody.raw);
-            requestObject[field] = paramBean[value];
+            requestObject[field] = paramBean[paramKeys[pk]];
             requestBody.raw = JSON.stringify(requestObject);
             request.body = requestBody;
-            this.executePostRequest(request);
-          });
+            await this.executePostRequest(request);
+          }
           break;
       }
     }
   }
 
   async executePostRequest(request) {
-    this.httpService.post(request);
+    await this.httpService.post(request);
   }
 
   async getAllRequestFields(request) {
