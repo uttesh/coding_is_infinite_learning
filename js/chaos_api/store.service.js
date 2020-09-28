@@ -12,6 +12,10 @@ class StoreService {
     return dataMap[key];
   }
 
+  async getAllKeys() {
+    return dataMap.keys();
+  }
+
   async getAll() {
     return dataMap;
   }

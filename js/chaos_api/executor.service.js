@@ -30,13 +30,11 @@ class ExecutorService {
 
   async processAPIs() {
     this.httpService = new HttpService(this.storeServiceInstance);
-    this.getStoreService()
-      .get(Constants.APIS)
-      .then(async (data) => {
-        for (let i = 0; i < data.length; i++) {
-          await this.execteRequest(data[i]);
-        }
-      });
+    let requests = await this.getStoreService().get(Constants.APIS);
+    console.log("requests :: ", requests.length);
+    for (let i = 0; i < requests.length; i++) {
+      await this.execteRequest(requests[i]);
+    }
   }
 
   async execteRequest(request) {
@@ -48,9 +46,12 @@ class ExecutorService {
           requestBean.fields.split(",").forEach((field) => {
             if (field) {
               console.log("field :: ", field);
-              Object.keys(Constants.Params).forEach((paramType) => {
-                console.log("param type:: ", paramType);
-                this.processPostRequestFieldValue(request, field, paramType);
+              Object.keys(Constants.LengthTypes).forEach((paramType) => {
+                this.processPostRequestFieldValue(
+                  request,
+                  field,
+                  Constants.LengthTypes[paramType]
+                );
               });
               // this.executePostRequest(request);
             }
@@ -61,14 +62,19 @@ class ExecutorService {
     }
   }
 
-  processPostRequestFieldValue(request, field, type) {
+  async processPostRequestFieldValue(request, field, type) {
     if (request.body) {
       let requestObject = {};
       let requestBody = request.body;
       switch (requestBody.mode) {
         case "raw":
           requestObject = JSON.parse(requestBody.raw);
-          console.log("requestObject :: ", requestObject);
+          // console.log("requestObject :: ", requestObject);
+          console.log("type :: ", "PARAM_" + type.label);
+          let paramBean = await this.getStoreService().get(
+            "PARAM_" + type.label
+          );
+          console.log("paramBean :: ", paramBean);
           break;
       }
     }
