@@ -10,15 +10,16 @@
 <li>Use the simple-crud API for the executor service testing and implementation.</li>
 <li> Populate the dynamic parameters based on tje request body/parameter.</li>
 <li>Execute the REST requests.</li>
+<li>Process each field to populate the request body for the post calls</li>
+<li>Populate each request on the field level</li>
 </ol>
 
 # Pending
 
 <ol>
-<li>Process each field to populate the request body for the post calls</li>
+
 <li>Prepare all other http calls for the execution</li>
-<li>list all type of POS calls</li>
-<li>Populate each request on the field level</li>
+<li>list all type of POST calls</li>
 <li>generate reports</li>
 <li>make npm library and document the changes</li>
 </ol>
