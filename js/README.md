@@ -12,6 +12,8 @@
 <li>Execute the REST requests.</li>
 <li>Process each field to populate the request body for the post calls</li>
 <li>Populate each request on the field level</li>
+<li>Added status bean for the report</li>
+
 </ol>
 
 # Pending
