@@ -36,14 +36,19 @@ class ExecutorService {
     for (let i = 0; i < requests.length; i++) {
       await this.execteRequest(requests[i], statusList);
     }
-    console.log("Status list of all executions :: ", statusList);
+    // console.log("Status list of all executions :: ", statusList);
   }
 
   async execteRequest(request, statusList) {
+    // console.log("urlencoded request ::: ", request);
     let requestBean = await this.getAllRequestFields(request);
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
-        if (requestBean.fields && requestBean.fields.length > 0) {
+        if (
+          requestBean &&
+          requestBean.fields &&
+          requestBean.fields.length > 0
+        ) {
           const fields = requestBean.fields.split(",");
           for (let i = 0; i < fields.length; i++) {
             let field = fields[i];
@@ -77,6 +82,7 @@ class ExecutorService {
   async processPostRequestFieldValue(statusList, request, field, type) {
     if (request.body) {
       let requestBody = request.body;
+      // console.log("requestBody.mode:: ", request);
       switch (requestBody.mode) {
         case "raw":
           let paramBean = await this.getStoreService().get(
@@ -100,6 +106,10 @@ class ExecutorService {
             );
           }
           break;
+
+        case "urlencoded":
+          console.log("urlencoded case request ::: ", request);
+          break;
       }
     }
   }
@@ -116,6 +126,11 @@ class ExecutorService {
           let rawObject = JSON.parse(body.raw);
           let fields = Object.keys(rawObject).join(",");
           let requestBean = new RequestBean(rawObject, fields);
+          return requestBean;
+        } else if (body.mode === "urlencoded") {
+          let rawObjects = body.urlencoded;
+          let fields = rawObjects.map((item) => item.key).join(",");
+          let requestBean = new RequestBean(rawObjects, fields);
           return requestBean;
         }
         break;
