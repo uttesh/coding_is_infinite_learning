@@ -65,7 +65,7 @@ class ExecutorService {
   }
 
   async populateStatus(statusList, request, field, type, paramType, reposne) {
-    let statusBean = new StatusBean();
+    const statusBean = new StatusBean();
     statusBean.setField(field);
     statusBean.setValueMode(type);
     statusBean.setValueType(paramType);
@@ -90,8 +90,8 @@ class ExecutorService {
             requestObject[field] = paramBean[paramKeys[pk]];
             requestBody.raw = JSON.stringify(requestObject);
             request.body = requestBody;
-            let response = await this.executePostRequest(request);
-            await this.populateStatus(
+            const response = await this.executePostRequest(request);
+            this.populateStatus(
               statusList,
               request,
               field,
@@ -106,7 +106,7 @@ class ExecutorService {
   }
 
   async executePostRequest(request) {
-    await this.httpService.post(request);
+    return await this.httpService.post(request);
   }
 
   async getAllRequestFields(request) {

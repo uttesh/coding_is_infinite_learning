@@ -45,7 +45,7 @@ class HttpService {
     }
     console.log("requestObject :", requestObject);
     console.log("getURL :: ", this.getURL(request));
-    await fetch(this.getURL(request), {
+    let response = await fetch(this.getURL(request), {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -57,9 +57,11 @@ class HttpService {
         return res.json();
       })
       .then((json) => {
-        console.log("then second res::", json);
+        // console.log("then second res::", json);
         console.log(json);
+        return json;
       });
+    return response;
   }
 
   async getAuthHeader(request) {
