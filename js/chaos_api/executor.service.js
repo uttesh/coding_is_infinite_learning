@@ -4,6 +4,7 @@ const HttpParserService = require("./http.parser.service");
 const HttpService = require("./http.service");
 const Constants = require("./constants");
 const RequestBean = require("./request.bean");
+const StatusBean = require("./status.bean");
 class ExecutorService {
   constructor(apisFile, environmentFile) {
     this.apisFile = apisFile;
@@ -32,24 +33,27 @@ class ExecutorService {
     this.httpService = new HttpService(this.storeServiceInstance);
     let requests = await this.getStoreService().get(Constants.APIS);
     console.log("requests :: ", requests.length);
+    let statusList = [];
     for (let i = 0; i < requests.length; i++) {
-      await this.execteRequest(requests[i]);
+      await this.execteRequest(requests[i], statusList);
     }
   }
 
-  async execteRequest(request) {
+  async execteRequest(request, statusList) {
     let requestBean = await this.getAllRequestFields(request);
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
         if (requestBean.fields && requestBean.fields.length > 0) {
           const fields = requestBean.fields.split(",");
           for (let i = 0; i < fields.length; i++) {
-            if (fields[i]) {
+            let field = fields[i];
+            if (field) {
               const paramTypes = Object.keys(Constants.LengthTypes);
               for (let p = 0; p < paramTypes.length; p++) {
                 await this.processPostRequestFieldValue(
+                  statusList,
                   request,
-                  fields[i],
+                  field,
                   Constants.LengthTypes[paramTypes[p]]
                 );
               }
@@ -60,7 +64,18 @@ class ExecutorService {
     }
   }
 
-  async processPostRequestFieldValue(request, field, type) {
+  async populateStatus(statusList, request, field, type, paramType, reposne) {
+    let statusBean = new StatusBean();
+    statusBean.setField(field);
+    statusBean.setValueMode(type);
+    statusBean.setValueType(paramType);
+    statusBean.setRequestBody(request);
+    statusBean.setResponse(reposne);
+    console.log("statusBean :: ", statusBean);
+    statusList.push(statusBean);
+  }
+
+  async processPostRequestFieldValue(statusList, request, field, type) {
     if (request.body) {
       let requestBody = request.body;
       switch (requestBody.mode) {
@@ -75,7 +90,15 @@ class ExecutorService {
             requestObject[field] = paramBean[paramKeys[pk]];
             requestBody.raw = JSON.stringify(requestObject);
             request.body = requestBody;
-            await this.executePostRequest(request);
+            let response = await this.executePostRequest(request);
+            await this.populateStatus(
+              statusList,
+              request,
+              field,
+              type.label,
+              paramKeys[pk],
+              response
+            );
           }
           break;
       }

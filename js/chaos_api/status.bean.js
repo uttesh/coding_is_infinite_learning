@@ -41,3 +41,4 @@ class StatusBean {
     return this.response;
   }
 }
+module.exports = StatusBean;
