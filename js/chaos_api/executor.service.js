@@ -32,11 +32,11 @@ class ExecutorService {
   async processAPIs() {
     this.httpService = new HttpService(this.storeServiceInstance);
     let requests = await this.getStoreService().get(Constants.APIS);
-    console.log("requests :: ", requests.length);
     let statusList = [];
     for (let i = 0; i < requests.length; i++) {
       await this.execteRequest(requests[i], statusList);
     }
+    console.log("Status list of all executions :: ", statusList);
   }
 
   async execteRequest(request, statusList) {
@@ -71,7 +71,6 @@ class ExecutorService {
     statusBean.setValueType(paramType);
     statusBean.setRequestBody(request);
     statusBean.setResponse(reposne);
-    console.log("statusBean :: ", statusBean);
     statusList.push(statusBean);
   }
 

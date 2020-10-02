@@ -27,13 +27,13 @@ class HttpService {
   }
 
   async post(request) {
-    console.log(request);
+    // console.log(request);
     let headers = this.getHeaders();
     if (request.auth) {
       headers["Authorization"] =
         request.auth.type + " " + (await this.getAuthHeader(request));
     }
-    console.log("auth header::", headers);
+    // console.log("auth header::", headers);
     let requestObject = {};
     if (request.body) {
       let requestBody = request.body;
@@ -43,8 +43,8 @@ class HttpService {
           break;
       }
     }
-    console.log("requestObject :", requestObject);
-    console.log("getURL :: ", this.getURL(request));
+    // console.log("requestObject :", requestObject);
+    // console.log("getURL :: ", this.getURL(request));
     let response = await fetch(this.getURL(request), {
       method: "POST",
       headers: {
@@ -58,7 +58,7 @@ class HttpService {
       })
       .then((json) => {
         // console.log("then second res::", json);
-        console.log(json);
+        // console.log(json);
         return json;
       });
     return response;
