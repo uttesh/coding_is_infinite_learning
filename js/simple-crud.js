@@ -65,6 +65,8 @@ app.delete("/users/:id", remove);
 
 // CRUD functions
 
+app.post("/users/formCreate", formCreate);
+
 /**
  * Create user
  * @param {*} req
@@ -98,6 +100,17 @@ function create(req, res) {
           error.message || "Some error occurred while creating the Note.",
       });
     });
+}
+
+/**
+ * Create user
+ * @param {*} req
+ * @param {*} res
+ */
+function formCreate(req, res) {
+  // Validate request
+  console.log("formCreate req.body: ", req.body);
+  create(req, res);
 }
 
 // Find All

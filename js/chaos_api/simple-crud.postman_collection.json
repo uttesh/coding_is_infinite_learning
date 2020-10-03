@@ -177,7 +177,7 @@
 						},
 						{
 							"key": "age",
-							"value": "89",
+							"value": "45",
 							"type": "text"
 						},
 						{
@@ -188,7 +188,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:3000/users/",
+					"raw": "http://localhost:3000/users/formCreate",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -196,7 +196,7 @@
 					"port": "3000",
 					"path": [
 						"users",
-						""
+						"formCreate"
 					]
 				}
 			},
