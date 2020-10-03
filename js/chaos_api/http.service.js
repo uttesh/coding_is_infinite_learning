@@ -41,16 +41,18 @@ class HttpService {
         case "raw":
           requestObject = JSON.parse(requestBody.raw);
           break;
+        case "urlencoded":
+          headers["Content-Type"] =
+            "application/x-www-form-urlencoded;charset=UTF-8";
+          requestObject = JSON.parse(requestBody.raw);
+          break;
       }
     }
     // console.log("requestObject :", requestObject);
     // console.log("getURL :: ", this.getURL(request));
     let response = await fetch(this.getURL(request), {
       method: "POST",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
+      headers: await this.getHeaders(),
       body: JSON.stringify(requestObject),
     })
       .then((res) => {

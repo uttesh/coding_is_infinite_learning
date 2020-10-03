@@ -36,7 +36,7 @@ class ExecutorService {
     for (let i = 0; i < requests.length; i++) {
       await this.execteRequest(requests[i], statusList);
     }
-    // console.log("Status list of all executions :: ", statusList);
+    console.log("Status list of all executions :: ", statusList);
   }
 
   async execteRequest(request, statusList) {
@@ -130,7 +130,11 @@ class ExecutorService {
         } else if (body.mode === "urlencoded") {
           let rawObjects = body.urlencoded;
           let fields = rawObjects.map((item) => item.key).join(",");
-          let requestBean = new RequestBean(rawObjects, fields);
+          let requestObj = {};
+          rawObjects.forEach((item) => {
+            requestObj[item.key] = item.value;
+          });
+          let requestBean = new RequestBean(requestObj, fields);
           return requestBean;
         }
         break;
