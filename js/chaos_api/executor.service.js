@@ -36,7 +36,7 @@ class ExecutorService {
     for (let i = 0; i < requests.length; i++) {
       await this.execteRequest(requests[i], statusList);
     }
-    console.log("Status list of all executions :: ", statusList);
+    // console.log("Status list of all executions :: ", statusList);
   }
 
   async execteRequest(request, statusList) {
@@ -108,7 +108,10 @@ class ExecutorService {
           break;
 
         case "urlencoded":
-          console.log("urlencoded case request ::: ", request);
+          let urlencodedParams = request.body.urlencoded;
+          // console.log("urlencodedParams :: ", urlencodedParams);
+          let mappedData = urlencodedParams.map((item) => item.key);
+          console.log("urlencoded case request ::: ", mappedData);
           break;
       }
     }
