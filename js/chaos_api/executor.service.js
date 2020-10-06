@@ -110,8 +110,13 @@ class ExecutorService {
         case "urlencoded":
           let urlencodedParams = request.body.urlencoded;
           // console.log("urlencodedParams :: ", urlencodedParams);
-          let mappedData = urlencodedParams.map((item) => item.key);
-          console.log("urlencoded case request ::: ", mappedData);
+          let requestObj = {};
+          urlencodedParams.forEach((item) => {
+            requestObj[item.key] = item.value;
+          });
+          console.log("requestObj :: ", requestObj);
+          // let mappedData = urlencodedParams.map((item) => item.key);
+          // console.log("urlencoded case request ::: ", mappedData);
           break;
       }
     }
