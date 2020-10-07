@@ -36,7 +36,7 @@ class ExecutorService {
     for (let i = 0; i < requests.length; i++) {
       await this.execteRequest(requests[i], statusList);
     }
-    console.log("Status list of all executions :: ", statusList);
+    // console.log("Status list of all executions :: ", statusList);
   }
 
   async execteRequest(request, statusList) {
@@ -83,18 +83,17 @@ class ExecutorService {
     if (request.body) {
       let requestBody = request.body;
       console.log("requestBody.mode:: ", request);
+      let paramBean = await this.getStoreService().get("PARAM_" + type.label);
+      const paramKeys = Object.keys(paramBean);
       switch (requestBody.mode) {
         case "raw":
-          let paramBean = await this.getStoreService().get(
-            "PARAM_" + type.label
-          );
-          const paramKeys = Object.keys(paramBean);
           for (let pk = 0; pk < paramKeys.length; pk++) {
-            let requestObject = {};
-            requestObject = JSON.parse(requestBody.raw);
-            requestObject[field] = paramBean[paramKeys[pk]];
-            requestBody.raw = JSON.stringify(requestObject);
-            request.body = requestBody;
+            this.populateRequestBody(
+              field,
+              request,
+              paramBean[paramKeys[pk]],
+              "raw"
+            );
             const response = await this.executePostRequest(request);
             this.populateStatus(
               statusList,
@@ -120,6 +119,15 @@ class ExecutorService {
           break;
       }
     }
+  }
+
+  populateRequestBody(field, request, value, type) {
+    let requestObject = {};
+    console.log("request.body :: ", request.body);
+    console.log("type :: ", type);
+    requestObject = JSON.parse(request.body[type]);
+    requestObject[field] = value;
+    request.body[type] = JSON.stringify(requestObject);
   }
 
   async executePostRequest(request) {
