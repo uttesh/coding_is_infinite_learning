@@ -19,9 +19,9 @@ class ConfigService {
       case Constants.LengthTypes.HUGE.label:
         length = Constants.LengthTypes.HUGE.value;
         break;
-      case Constants.LengthTypes.HULK.label:
-        length = Constants.LengthTypes.HULK.value;
-        break;
+      // case Constants.LengthTypes.HULK.label:
+      //   length = Constants.LengthTypes.HULK.value;
+      //   break;
     }
     return length;
   }

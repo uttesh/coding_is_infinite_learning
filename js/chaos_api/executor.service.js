@@ -36,7 +36,7 @@ class ExecutorService {
     for (let i = 0; i < requests.length; i++) {
       await this.execteRequest(requests[i], statusList);
     }
-    // console.log("Status list of all executions :: ", statusList);
+    console.log("Status list of all executions :: ", statusList);
   }
 
   async execteRequest(request, statusList) {
@@ -82,7 +82,7 @@ class ExecutorService {
   async processPostRequestFieldValue(statusList, request, field, type) {
     if (request.body) {
       let requestBody = request.body;
-      // console.log("requestBody.mode:: ", request);
+      console.log("requestBody.mode:: ", request);
       switch (requestBody.mode) {
         case "raw":
           let paramBean = await this.getStoreService().get(
