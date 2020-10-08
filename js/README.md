@@ -13,14 +13,12 @@
 <li>Process each field to populate the request body for the post calls</li>
 <li>Populate each request on the field level</li>
 <li>Added status bean for the report</li>
-
+<li>Process url encode post request</li>
 </ol>
 
 # Pending
-
 <ol>
 <li>Prepare all other http calls for the execution</li>
-<li>Process url encode post request</li>
 <li>list all type of POST calls</li>
 <li>generate reports</li>
 <li>make npm library and document the changes</li>
