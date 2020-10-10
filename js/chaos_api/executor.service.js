@@ -82,28 +82,29 @@ class ExecutorService {
   async processPostRequestFieldValue(statusList, request, field, type) {
     if (request.body) {
       let requestBody = request.body;
-      console.log("requestBody.mode:: ", request);
-      let paramBean = await this.getStoreService().get("PARAM_" + type.label);
-      const paramKeys = Object.keys(paramBean);
+
+      // let paramBean = await this.getStoreService().get("PARAM_" + type.label);
+      // const paramKeys = Object.keys(paramBean);
       switch (requestBody.mode) {
         case "raw":
-          for (let pk = 0; pk < paramKeys.length; pk++) {
-            this.populateRequestBody(
-              field,
-              request,
-              paramBean[paramKeys[pk]],
-              "raw"
-            );
-            const response = await this.executePostRequest(request);
-            this.populateStatus(
-              statusList,
-              request,
-              field,
-              type.label,
-              paramKeys[pk],
-              response
-            );
-          }
+          this.executeReqByApeValues(statusList, field, request, type, "raw");
+          // for (let pk = 0; pk < paramKeys.length; pk++) {
+          //   this.populateRequestBody(
+          //     field,
+          //     request,
+          //     paramBean[paramKeys[pk]],
+          //     "raw"
+          //   );
+          //   const response = await this.executePostRequest(request);
+          //   this.populateStatus(
+          //     statusList,
+          //     request,
+          //     field,
+          //     type.label,
+          //     paramKeys[pk],
+          //     response
+          //   );
+          // }
           break;
 
         case "urlencoded":
@@ -121,10 +122,36 @@ class ExecutorService {
     }
   }
 
+  async executeReqByApeValues(
+    statusList,
+    field,
+    request,
+    type,
+    requestBodyType
+  ) {
+    let paramBean = await this.getStoreService().get("PARAM_" + type.label);
+    const paramKeys = Object.keys(paramBean);
+    for (let pk = 0; pk < paramKeys.length; pk++) {
+      this.populateRequestBody(
+        field,
+        request,
+        paramBean[paramKeys[pk]],
+        requestBodyType
+      );
+      const response = await this.executePostRequest(request);
+      this.populateStatus(
+        statusList,
+        request,
+        field,
+        type.label,
+        paramKeys[pk],
+        response
+      );
+    }
+  }
+
   populateRequestBody(field, request, value, type) {
     let requestObject = {};
-    console.log("request.body :: ", request.body);
-    console.log("type :: ", type);
     requestObject = JSON.parse(request.body[type]);
     requestObject[field] = value;
     request.body[type] = JSON.stringify(requestObject);
