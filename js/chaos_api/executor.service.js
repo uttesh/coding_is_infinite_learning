@@ -5,6 +5,7 @@ const HttpService = require("./http.service");
 const Constants = require("./constants");
 const RequestBean = require("./request.bean");
 const StatusBean = require("./status.bean");
+const ApeBean = require("./ape.bean");
 class ExecutorService {
   constructor(apisFile, environmentFile) {
     this.apisFile = apisFile;
@@ -42,6 +43,7 @@ class ExecutorService {
   async execteRequest(request, statusList) {
     // console.log("urlencoded request ::: ", request);
     let requestBean = await this.getAllRequestFields(request);
+
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
         if (
@@ -55,12 +57,12 @@ class ExecutorService {
             if (field) {
               const paramTypes = Object.keys(Constants.LengthTypes);
               for (let p = 0; p < paramTypes.length; p++) {
-                await this.processPostRequestFieldValue(
-                  statusList,
-                  request,
-                  field,
-                  Constants.LengthTypes[paramTypes[p]]
-                );
+                let apeBean = new ApeBean();
+                apeBean.setStatusList(statusList);
+                apeBean.setRequest(request);
+                apeBean.setField(field);
+                apeBean.setParamType(Constants.LengthTypes[paramTypes[p]]);
+                await this.processPostRequestFieldValue(apeBean);
               }
             }
           }
@@ -79,76 +81,62 @@ class ExecutorService {
     statusList.push(statusBean);
   }
 
-  async processPostRequestFieldValue(statusList, request, field, type) {
-    if (request.body) {
-      let requestBody = request.body;
-
-      // let paramBean = await this.getStoreService().get("PARAM_" + type.label);
-      // const paramKeys = Object.keys(paramBean);
+  async processPostRequestFieldValue(apeBean) {
+    if (apeBean.getRequest().body) {
+      let requestBody = apeBean.getRequest().body;
       switch (requestBody.mode) {
-        // case Constants.HTTP_REQUEST.BODY_TYPE.RAW:
-        //   this.executeReqByApeValues(statusList, field, request, type, "raw");
-        //   break;
-
+        case Constants.HTTP_REQUEST.BODY_TYPE.RAW:
+          apeBean.setReqBodyType(Constants.HTTP_REQUEST.BODY_TYPE.RAW);
+          this.executeReqByApeValues(apeBean);
+          break;
         case Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED:
-          this.executeReqByApeValues(
-            statusList,
-            field,
-            request,
-            type,
-            Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED
-          );
-          // let mappedData = urlencodedParams.map((item) => item.key);
-          // console.log("urlencoded case request ::: ", mappedData);
+          apeBean.setReqBodyType(Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED);
+          this.executeReqByApeValues(apeBean);
           break;
       }
     }
   }
 
-  async executeReqByApeValues(
-    statusList,
-    field,
-    request,
-    type,
-    requestBodyType
-  ) {
-    let paramBean = await this.getStoreService().get("PARAM_" + type.label);
+  async executeReqByApeValues(apeBean) {
+    let paramBean = await this.getStoreService().get(
+      "PARAM_" + apeBean.getParamType().label
+    );
     const paramKeys = Object.keys(paramBean);
     for (let pk = 0; pk < paramKeys.length; pk++) {
-      this.populateRequestBody(
-        field,
-        request,
-        paramBean[paramKeys[pk]],
-        requestBodyType
-      );
-      const response = await this.executePostRequest(request);
+      apeBean.setParamValue(paramBean[paramKeys[pk]]);
+      this.populateRequestBody(apeBean);
+      const response = await this.executePostRequest(apeBean.getRequest());
       this.populateStatus(
-        statusList,
-        request,
-        field,
-        type.label,
+        apeBean.getStatusList(),
+        apeBean.getRequest(),
+        apeBean.getField(),
+        apeBean.getParamType(),
         paramKeys[pk],
         response
       );
     }
   }
 
-  populateRequestBody(field, request, value, type) {
+  populateRequestBody(apeBean) {
     let requestObject = {};
+    let type = apeBean.getReqBodyType();
+    let request = apeBean.getRequest();
     if (type === Constants.HTTP_REQUEST.BODY_TYPE.RAW) {
-      requestObject = JSON.parse(request.body[type]);
-      requestObject[field] = value;
+      requestObject = JSON.parse(apeBean.getRequest().body[type]);
+      requestObject[apeBean.getField()] = apeBean.getParamValue();
       request.body[type] = JSON.stringify(requestObject);
+      apeBean.setRequest(request);
     } else if (type === Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED) {
-      let urlencodedParams = request.body.urlencoded;
+      let urlencodedParams = apeBean.getRequest().body.urlencoded;
       let requestObj = {};
       urlencodedParams.forEach((item) => {
         requestObj[item.key] = item.value;
       });
-      requestObj[field] = value;
+      requestObj[apeBean.getField()] = apeBean.getParamValue();
       request.body[Constants.CUSTOM_REQUEST_OBJECT] = JSON.stringify(
         requestObj
       );
+      apeBean.setRequest(request);
     }
   }
 
