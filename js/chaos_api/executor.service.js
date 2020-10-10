@@ -86,35 +86,18 @@ class ExecutorService {
       // let paramBean = await this.getStoreService().get("PARAM_" + type.label);
       // const paramKeys = Object.keys(paramBean);
       switch (requestBody.mode) {
-        case "raw":
-          this.executeReqByApeValues(statusList, field, request, type, "raw");
-          // for (let pk = 0; pk < paramKeys.length; pk++) {
-          //   this.populateRequestBody(
-          //     field,
-          //     request,
-          //     paramBean[paramKeys[pk]],
-          //     "raw"
-          //   );
-          //   const response = await this.executePostRequest(request);
-          //   this.populateStatus(
-          //     statusList,
-          //     request,
-          //     field,
-          //     type.label,
-          //     paramKeys[pk],
-          //     response
-          //   );
-          // }
-          break;
+        // case "raw":
+        //   this.executeReqByApeValues(statusList, field, request, type, "raw");
+        //   break;
 
         case "urlencoded":
           let urlencodedParams = request.body.urlencoded;
-          // console.log("urlencodedParams :: ", urlencodedParams);
           let requestObj = {};
           urlencodedParams.forEach((item) => {
             requestObj[item.key] = item.value;
           });
           console.log("requestObj :: ", requestObj);
+          this.executeReqByApeValues(statusList, field, request, type, "raw");
           // let mappedData = urlencodedParams.map((item) => item.key);
           // console.log("urlencoded case request ::: ", mappedData);
           break;
