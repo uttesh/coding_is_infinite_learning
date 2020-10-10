@@ -86,18 +86,18 @@ class ExecutorService {
       // let paramBean = await this.getStoreService().get("PARAM_" + type.label);
       // const paramKeys = Object.keys(paramBean);
       switch (requestBody.mode) {
-        // case "raw":
+        // case Constants.HTTP_REQUEST.BODY_TYPE.RAW:
         //   this.executeReqByApeValues(statusList, field, request, type, "raw");
         //   break;
 
-        case "urlencoded":
-          let urlencodedParams = request.body.urlencoded;
-          let requestObj = {};
-          urlencodedParams.forEach((item) => {
-            requestObj[item.key] = item.value;
-          });
-          console.log("requestObj :: ", requestObj);
-          this.executeReqByApeValues(statusList, field, request, type, "raw");
+        case Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED:
+          this.executeReqByApeValues(
+            statusList,
+            field,
+            request,
+            type,
+            Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED
+          );
           // let mappedData = urlencodedParams.map((item) => item.key);
           // console.log("urlencoded case request ::: ", mappedData);
           break;
@@ -135,9 +135,21 @@ class ExecutorService {
 
   populateRequestBody(field, request, value, type) {
     let requestObject = {};
-    requestObject = JSON.parse(request.body[type]);
-    requestObject[field] = value;
-    request.body[type] = JSON.stringify(requestObject);
+    if (type === Constants.HTTP_REQUEST.BODY_TYPE.RAW) {
+      requestObject = JSON.parse(request.body[type]);
+      requestObject[field] = value;
+      request.body[type] = JSON.stringify(requestObject);
+    } else if (type === Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED) {
+      let urlencodedParams = request.body.urlencoded;
+      let requestObj = {};
+      urlencodedParams.forEach((item) => {
+        requestObj[item.key] = item.value;
+      });
+      requestObj[field] = value;
+      request.body[Constants.CUSTOM_REQUEST_OBJECT] = JSON.stringify(
+        requestObj
+      );
+    }
   }
 
   async executePostRequest(request) {
@@ -148,12 +160,12 @@ class ExecutorService {
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
         let body = request.body;
-        if (body.mode === "raw") {
+        if (body.mode === Constants.HTTP_REQUEST.BODY_TYPE.RAW) {
           let rawObject = JSON.parse(body.raw);
           let fields = Object.keys(rawObject).join(",");
           let requestBean = new RequestBean(rawObject, fields);
           return requestBean;
-        } else if (body.mode === "urlencoded") {
+        } else if (body.mode === Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED) {
           let rawObjects = body.urlencoded;
           let fields = rawObjects.map((item) => item.key).join(",");
           let requestObj = {};
@@ -177,7 +189,7 @@ class ExecutorService {
         break;
       case Constants.HTTP_PARAMS.METHODS.PUT:
         let putbody = request.body;
-        if (putbody.mode === "raw") {
+        if (putbody.mode === Constants.HTTP_REQUEST.BODY_TYPE.RAW) {
           let rawObject = JSON.parse(putbody.raw);
           let fields = Object.keys(rawObject).join(",");
           let requestBean = new RequestBean(rawObject, fields);

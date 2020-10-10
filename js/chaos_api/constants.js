@@ -18,12 +18,19 @@ const Constants = Object.freeze({
   },
   APIS: "APIS",
   ENVS: "ENVS",
+  CUSTOM_REQUEST_OBJECT: "custom_request_object",
   HTTP_PARAMS: {
     METHODS: {
       POST: "POST",
       GET: "GET",
       PUT: "PUT",
       DELETE: "DELETE",
+    },
+  },
+  HTTP_REQUEST: {
+    BODY_TYPE: {
+      RAW: "raw",
+      URL_ENCODED: "urlencoded",
     },
   },
 });

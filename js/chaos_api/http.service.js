@@ -27,13 +27,11 @@ class HttpService {
   }
 
   async post(request) {
-    // console.log(request);
     let headers = this.getHeaders();
     if (request.auth) {
       headers["Authorization"] =
         request.auth.type + " " + (await this.getAuthHeader(request));
     }
-    // console.log("auth header::", headers);
     let requestObject = {};
     if (request.body) {
       let requestBody = request.body;
@@ -44,12 +42,12 @@ class HttpService {
         case "urlencoded":
           headers["Content-Type"] =
             "application/x-www-form-urlencoded;charset=UTF-8";
-          requestObject = JSON.parse(requestBody.raw);
+          requestObject = JSON.parse(
+            requestBody[Constants.CUSTOM_REQUEST_OBJECT]
+          );
           break;
       }
     }
-    // console.log("requestObject :", requestObject);
-    // console.log("getURL :: ", this.getURL(request));
     let response = await fetch(this.getURL(request), {
       method: "POST",
       headers: await this.getHeaders(),
