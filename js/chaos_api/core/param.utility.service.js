@@ -1,6 +1,6 @@
 const ConfigService = require("./config.service");
-const WordGenerator = require("./word.generator");
-const OtherData = require("./others.generator");
+const WordGenerator = require("./generators/word.generator");
+const OtherData = require("./generators/others.generator");
 const Constants = require("../common/constants");
 const ParamBean = require("../bean/param.bean");
 let configService, wordGenerator, otherData, storeService;

@@ -1,5 +1,5 @@
 var fs = require("fs");
-const Constants = require("./common/constants");
+const Constants = require("../../common/constants");
 let storeService;
 class HttpParserService {
   constructor(storeInstance) {
