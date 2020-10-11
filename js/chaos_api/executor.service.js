@@ -2,10 +2,10 @@ const ParamUtilityService = require("./param.utility.service");
 const StoreService = require("./store.service");
 const HttpParserService = require("./http.parser.service");
 const HttpService = require("./http.service");
-const Constants = require("./constants");
-const RequestBean = require("./request.bean");
-const StatusBean = require("./status.bean");
-const ApeBean = require("./ape.bean");
+const Constants = require("./common/constants");
+const RequestBean = require("./bean/request.bean");
+const StatusBean = require("./bean/status.bean");
+const ApeBean = require("./bean/ape.bean");
 class ExecutorService {
   constructor(apisFile, environmentFile) {
     this.apisFile = apisFile;

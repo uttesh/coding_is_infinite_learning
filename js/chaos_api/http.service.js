@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const Constants = require("./constants");
+const Constants = require("./common/constants");
 const UtilityService = require("./utility.service");
 class HttpService {
   constructor(storeServiceInstance) {

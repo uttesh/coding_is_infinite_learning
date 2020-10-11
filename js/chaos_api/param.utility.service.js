@@ -1,8 +1,8 @@
 const ConfigService = require("./config.service");
 const WordGenerator = require("./word.generator");
 const OtherData = require("./others.generator");
-const Constants = require("./constants");
-const ParamBean = require("./param.bean");
+const Constants = require("./common/constants");
+const ParamBean = require("./bean/param.bean");
 let configService, wordGenerator, otherData, storeService;
 class ParamUtilityService {
   constructor(storeInstance) {

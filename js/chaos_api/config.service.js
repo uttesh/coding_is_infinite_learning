@@ -1,4 +1,4 @@
-const Constants = require("./constants");
+const Constants = require("./common/constants");
 class ConfigService {
   constructor() {}
   getParamLength(type) {
