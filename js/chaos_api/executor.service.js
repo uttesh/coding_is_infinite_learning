@@ -41,9 +41,7 @@ class ExecutorService {
   }
 
   async execteRequest(request, statusList) {
-    // console.log("urlencoded request ::: ", request);
     let requestBean = await this.getAllRequestFields(request);
-
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
         if (
@@ -71,14 +69,14 @@ class ExecutorService {
     }
   }
 
-  async populateStatus(statusList, request, field, type, paramType, reposne) {
+  async populateStatus(apeBean, valueType, response) {
     const statusBean = new StatusBean();
-    statusBean.setField(field);
-    statusBean.setValueMode(type);
-    statusBean.setValueType(paramType);
-    statusBean.setRequestBody(request);
-    statusBean.setResponse(reposne);
-    statusList.push(statusBean);
+    statusBean.setField(apeBean.getField());
+    statusBean.setValueMode(apeBean.getParamType());
+    statusBean.setValueType(valueType);
+    statusBean.setRequestBody(apeBean.getRequest());
+    statusBean.setResponse(response);
+    apeBean.getStatusList().push(statusBean);
   }
 
   async processPostRequestFieldValue(apeBean) {
@@ -106,14 +104,7 @@ class ExecutorService {
       apeBean.setParamValue(paramBean[paramKeys[pk]]);
       this.populateRequestBody(apeBean);
       const response = await this.executePostRequest(apeBean.getRequest());
-      this.populateStatus(
-        apeBean.getStatusList(),
-        apeBean.getRequest(),
-        apeBean.getField(),
-        apeBean.getParamType(),
-        paramKeys[pk],
-        response
-      );
+      this.populateStatus(apeBean, paramKeys[pk], response);
     }
   }
 
