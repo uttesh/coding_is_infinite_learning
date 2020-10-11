@@ -1,5 +1,5 @@
-const ParamUtilityService = require("./param.utility.service");
-const StoreService = require("./store.service");
+const ParamUtilityService = require("./core/param.utility.service");
+const StoreService = require("./common/store.service");
 const HttpParserService = require("./http.parser.service");
 const HttpService = require("./http.service");
 const Constants = require("./common/constants");

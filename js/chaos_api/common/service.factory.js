@@ -1,4 +1,4 @@
-const ConfigService = require("./config.service");
+const ConfigService = require("../core/config.service");
 
 let serviceRegistry = new Map();
 
