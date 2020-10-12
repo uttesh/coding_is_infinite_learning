@@ -6,6 +6,8 @@ const Constants = require("./common/constants");
 const RequestBean = require("./bean/request.bean");
 const StatusBean = require("./bean/status.bean");
 const ApeBean = require("./bean/ape.bean");
+const RawRequestBodyProcess = require("./core/http/raw.reqbody.process");
+
 class ExecutorService {
   constructor(apisFile, environmentFile) {
     this.apisFile = apisFile;
@@ -37,7 +39,7 @@ class ExecutorService {
     for (let i = 0; i < requests.length; i++) {
       await this.execteRequest(requests[i], statusList);
     }
-    // console.log("Status list of all executions :: ", statusList);
+    console.log("Status list of all executions :: ", statusList);
   }
 
   async execteRequest(request, statusList) {
@@ -60,7 +62,10 @@ class ExecutorService {
                 apeBean.setRequest(request);
                 apeBean.setField(field);
                 apeBean.setParamType(Constants.LengthTypes[paramTypes[p]]);
-                await this.processPostRequestFieldValue(apeBean);
+                apeBean = await this.processPostRequest(apeBean);
+                if (apeBean) {
+                  statusList.push(apeBean.getStatusList());
+                }
               }
             }
           }
@@ -79,18 +84,22 @@ class ExecutorService {
     apeBean.getStatusList().push(statusBean);
   }
 
-  async processPostRequestFieldValue(apeBean) {
+  async processPostRequest(apeBean) {
     if (apeBean.getRequest().body) {
       let requestBody = apeBean.getRequest().body;
       switch (requestBody.mode) {
         case Constants.HTTP_REQUEST.BODY_TYPE.RAW:
           apeBean.setReqBodyType(Constants.HTTP_REQUEST.BODY_TYPE.RAW);
-          this.executeReqByApeValues(apeBean);
-          break;
-        case Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED:
-          apeBean.setReqBodyType(Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED);
-          this.executeReqByApeValues(apeBean);
-          break;
+          let rawRequestBodyProcess = new RawRequestBodyProcess(
+            this.getStoreService(),
+            this.httpService
+          );
+          return rawRequestBodyProcess.executeRawRequest(apeBean);
+        // this.executeReqByApeValues(apeBean);
+        // case Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED:
+        //   apeBean.setReqBodyType(Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED);
+        //   this.executeReqByApeValues(apeBean);
+        //   break;
       }
     }
   }
