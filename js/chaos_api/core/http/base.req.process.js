@@ -9,6 +9,21 @@ class BaseReqProcess {
     return this.storeServiceInstance;
   }
 
+  async executeReqByApeValues(apeBean) {
+    // console.log("inbase class:: ");
+    let paramBean = await this.getStoreService().get(
+      "PARAM_" + apeBean.getParamType().label
+    );
+    const paramKeys = Object.keys(paramBean);
+    for (let pk = 0; pk < paramKeys.length; pk++) {
+      apeBean.setParamValue(paramBean[paramKeys[pk]]);
+      this.populateRequestBody(apeBean);
+      const response = await this.executePostRequest(apeBean.getRequest());
+      await this.populateStatus(apeBean, paramKeys[pk], response);
+    }
+    return apeBean;
+  }
+
   async populateStatus(apeBean, valueType, response) {
     const statusBean = new StatusBean();
     statusBean.setField(apeBean.getField());
