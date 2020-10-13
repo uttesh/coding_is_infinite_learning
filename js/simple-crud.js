@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const multer = require("multer");
+const csv = require("fast-csv");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -62,6 +64,10 @@ app.put("/users/:id", update);
 
 // Delete user by email
 app.delete("/users/:id", remove);
+
+const upload = multer({ dest: "C:\\tmp\\csv" });
+// file upload
+app.post("/users/import", upload.single("file"), importUsers);
 
 // CRUD functions
 
@@ -189,6 +195,26 @@ function remove(req, res) {
       res.status(500).send({
         message: "Error occurred while deleting the user id:" + req.params.id,
       });
+    });
+}
+
+function importUsers(req, res) {
+  // Validate request
+  console.log("importUsers req.body: ", req.body);
+  console.log("req.file.path :: ", req.file.path);
+  const fileRows = [];
+
+  // open uploaded file
+  csv
+    .parseFile(req.file.path)
+    .on("data", function (data) {
+      fileRows.push(data); // push each row
+    })
+    .on("end", function () {
+      console.log(fileRows);
+      // fs.unlinkSync(req.file.path); // remove temp file
+      //process "fileRows" and respond
+      res.send(fileRows);
     });
 }
 
