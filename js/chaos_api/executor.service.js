@@ -3,11 +3,10 @@ const StoreService = require("./common/store.service");
 const HttpParserService = require("./core/http/http.parser.service");
 const HttpService = require("./core/http/http.service");
 const Constants = require("./common/constants");
-const RequestBean = require("./bean/request.bean");
-const StatusBean = require("./bean/status.bean");
 const ApeBean = require("./bean/ape.bean");
 const RawRequestBodyProcess = require("./core/http/raw.reqbody.process");
 const URLEncodeReqProcess = require("./core/http/url.encode.req.process");
+const RequestFieldProcess = require("./core/http/req.fields.process");
 
 class ExecutorService {
   constructor(apisFile, environmentFile) {
@@ -44,7 +43,8 @@ class ExecutorService {
   }
 
   async execteRequest(request, statusList) {
-    let requestBean = await this.getAllRequestFields(request);
+    let requestFieldProcess = new RequestFieldProcess();
+    let requestBean = await requestFieldProcess.getAllRequestFields(request);
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
         if (
@@ -97,51 +97,6 @@ class ExecutorService {
 
   async executePostRequest(request) {
     return await this.httpService.post(request);
-  }
-
-  async getAllRequestFields(request) {
-    switch (request.method) {
-      case Constants.HTTP_PARAMS.METHODS.POST:
-        let body = request.body;
-        if (body.mode === Constants.HTTP_REQUEST.BODY_TYPE.RAW) {
-          let rawObject = JSON.parse(body.raw);
-          let fields = Object.keys(rawObject).join(",");
-          let requestBean = new RequestBean(rawObject, fields);
-          return requestBean;
-        } else if (body.mode === Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED) {
-          let rawObjects = body.urlencoded;
-          let fields = rawObjects.map((item) => item.key).join(",");
-          let requestObj = {};
-          rawObjects.forEach((item) => {
-            requestObj[item.key] = item.value;
-          });
-          let requestBean = new RequestBean(requestObj, fields);
-          return requestBean;
-        }
-        break;
-      case Constants.HTTP_PARAMS.METHODS.GET:
-        let query = request.url.query;
-        let fields = "";
-        if (query) {
-          query.forEach((item) => {
-            fields = fields ? fields + "," + item.key : item.key;
-          });
-          let requestBean = new RequestBean(query, fields);
-          return requestBean;
-        }
-        break;
-      case Constants.HTTP_PARAMS.METHODS.PUT:
-        let putbody = request.body;
-        if (putbody.mode === Constants.HTTP_REQUEST.BODY_TYPE.RAW) {
-          let rawObject = JSON.parse(putbody.raw);
-          let fields = Object.keys(rawObject).join(",");
-          let requestBean = new RequestBean(rawObject, fields);
-          return requestBean;
-        }
-        break;
-      case Constants.HTTP_PARAMS.METHODS.DELETE:
-        break;
-    }
   }
 }
 
