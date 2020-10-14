@@ -37,6 +37,48 @@
 			"response": []
 		},
 		{
+			"name": "import users",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/uttesh/Downloads/test.aac"
+						},
+						{
+							"key": "data",
+							"value": "{\"name\":test}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/users/import",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"import"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "find all users",
 			"request": {
 				"method": "GET",
