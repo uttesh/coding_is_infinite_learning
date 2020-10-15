@@ -46,6 +46,8 @@ class HttpService {
             requestBody[Constants.CUSTOM_REQUEST_OBJECT]
           );
           break;
+        case "formdata":
+          break;
       }
     }
     let response = await fetch(this.getURL(request), {
