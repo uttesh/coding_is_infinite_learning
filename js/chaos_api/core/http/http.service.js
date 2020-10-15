@@ -27,6 +27,7 @@ class HttpService {
   }
 
   async post(request) {
+    let requestOptions = { method: "POST" };
     let headers = this.getHeaders();
     if (request.auth) {
       headers["Authorization"] =
@@ -38,6 +39,8 @@ class HttpService {
       switch (requestBody.mode) {
         case "raw":
           requestObject = JSON.parse(requestBody.raw);
+          requestOptions.headers = await this.getHeaders();
+          requestOptions.body = JSON.stringify(requestObject);
           break;
         case "urlencoded":
           headers["Content-Type"] =
@@ -45,16 +48,19 @@ class HttpService {
           requestObject = JSON.parse(
             requestBody[Constants.CUSTOM_REQUEST_OBJECT]
           );
+          requestOptions.headers = headers;
+          requestOptions.body = JSON.stringify(requestObject);
           break;
         case "formdata":
+          // headers["Content-Type"] = "multipart/form-data";
+          // const formData = new FormData();
+          // formData.append("file", fileInput.files[0]);
+          // requestOptions.headers = await this.getHeaders();
+          // requestOptions.body = JSON.stringify(requestObject);
           break;
       }
     }
-    let response = await fetch(this.getURL(request), {
-      method: "POST",
-      headers: await this.getHeaders(),
-      body: JSON.stringify(requestObject),
-    })
+    let response = await fetch(this.getURL(request), requestOptions)
       .then((res) => {
         return res.json();
       })
