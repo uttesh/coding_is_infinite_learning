@@ -30,7 +30,7 @@ const Constants = Object.freeze({
   HTTP_REQUEST: {
     BODY_TYPE: {
       RAW: "raw",
-      URL_ENCODED: "urlencoded",
+      FORM_DATA: "formdata",
     },
   },
 });

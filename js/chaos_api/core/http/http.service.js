@@ -52,11 +52,11 @@ class HttpService {
           requestOptions.body = JSON.stringify(requestObject);
           break;
         case "formdata":
-          // headers["Content-Type"] = "multipart/form-data";
-          // const formData = new FormData();
-          // formData.append("file", fileInput.files[0]);
-          // requestOptions.headers = await this.getHeaders();
-          // requestOptions.body = JSON.stringify(requestObject);
+          headers["Content-Type"] = "multipart/form-data";
+          const formData = new FormData();
+          formData.append("file", fileInput.files[0]);
+          requestOptions.headers = await this.getHeaders();
+          requestOptions.body = JSON.stringify(requestObject);
           break;
       }
     }

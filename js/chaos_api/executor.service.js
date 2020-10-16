@@ -7,6 +7,7 @@ const ApeBean = require("./bean/ape.bean");
 const RawRequestBodyProcess = require("./core/http/raw.reqbody.process");
 const URLEncodeReqProcess = require("./core/http/url.encode.req.process");
 const RequestFieldProcess = require("./core/http/req.fields.process");
+const FormDataReqBodyProcess = require("./core/http/formdata.reqbody.process");
 
 class ExecutorService {
   constructor(apisFile, environmentFile) {
@@ -78,19 +79,26 @@ class ExecutorService {
   async processPostRequest(apeBean) {
     if (apeBean.getRequest().body) {
       let requestBody = apeBean.getRequest().body;
+      console.log("requestBody.mode : ", requestBody.mode);
       switch (requestBody.mode) {
-        case Constants.HTTP_REQUEST.BODY_TYPE.RAW:
-          let rawRequestBodyProcess = new RawRequestBodyProcess(
+        // case Constants.HTTP_REQUEST.BODY_TYPE.RAW:
+        //   let rawRequestBodyProcess = new RawRequestBodyProcess(
+        //     this.getStoreService(),
+        //     this.httpService
+        //   );
+        //   return rawRequestBodyProcess.executeRawRequest(apeBean);
+        // case Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED:
+        //   let urlEncodeReqProcess = new URLEncodeReqProcess(
+        //     this.getStoreService(),
+        //     this.httpService
+        //   );
+        //   return urlEncodeReqProcess.executeURLEncodeRequest(apeBean);
+        case Constants.HTTP_REQUEST.BODY_TYPE.FORM_DATA:
+          let formDataReqBodyProcess = FormDataReqBodyProcess(
             this.getStoreService(),
             this.httpService
           );
-          return rawRequestBodyProcess.executeRawRequest(apeBean);
-        case Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED:
-          let urlEncodeReqProcess = new URLEncodeReqProcess(
-            this.getStoreService(),
-            this.httpService
-          );
-          return urlEncodeReqProcess.executeURLEncodeRequest(apeBean);
+          return formDataReqBodyProcess.executeFormDataRequest(apeBean);
       }
     }
   }

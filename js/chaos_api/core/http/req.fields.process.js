@@ -46,6 +46,8 @@ class RequestFieldProcess {
       return this.extractRawRequest(body);
     } else if (body.mode === Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED) {
       return this.extractURLEncodeRequest(body);
+    } else if (body.mode === Constants.HTTP_REQUEST.BODY_TYPE.FORM_DATA) {
+      return this.extractFormDataRequest(body);
     }
   }
 
@@ -62,6 +64,16 @@ class RequestFieldProcess {
     let requestObj = {};
     rawObjects.forEach((item) => {
       requestObj[item.key] = item.value;
+    });
+    let requestBean = new RequestBean(requestObj, fields);
+    return requestBean;
+  }
+  extractFormDataRequest(body) {
+    let rawObjects = body.formdata;
+    let fields = rawObjects.map((item) => item.key).join(",");
+    let requestObj = {};
+    rawObjects.forEach((item) => {
+      requestObj[item.key] = item.type === "file" ? item.src : item.value;
     });
     let requestBean = new RequestBean(requestObj, fields);
     return requestBean;
