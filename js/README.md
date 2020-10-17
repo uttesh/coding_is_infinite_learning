@@ -14,13 +14,13 @@
 <li>Populate each request on the field level</li>
 <li>Added status bean for the report</li>
 <li>Process url encode post request</li>
+<li>Prepare all other http calls for the execution</li>
 </ol>
 
 # Pending
 <ol>
-
+<li>profile different types of file</li>
 <li>Process file upload related post files</li>
-<li>Prepare all other http calls for the execution</li>
 <li>list all type of POST calls</li>
 <li>generate reports</li>
 <li>make npm library and document the changes</li>
