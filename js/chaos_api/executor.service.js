@@ -94,7 +94,7 @@ class ExecutorService {
         //   );
         //   return urlEncodeReqProcess.executeURLEncodeRequest(apeBean);
         case Constants.HTTP_REQUEST.BODY_TYPE.FORM_DATA:
-          let formDataReqBodyProcess = FormDataReqBodyProcess(
+          let formDataReqBodyProcess = new FormDataReqBodyProcess(
             this.getStoreService(),
             this.httpService
           );

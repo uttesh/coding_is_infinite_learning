@@ -201,21 +201,25 @@ function remove(req, res) {
 function importUsers(req, res) {
   // Validate request
   console.log("importUsers req.body: ", req.body);
-  console.log("req.file.path :: ", req.file.path);
   const fileRows = [];
 
   // open uploaded file
-  csv
-    .parseFile(req.file.path)
-    .on("data", function (data) {
-      fileRows.push(data); // push each row
-    })
-    .on("end", function () {
-      console.log(fileRows);
-      // fs.unlinkSync(req.file.path); // remove temp file
-      //process "fileRows" and respond
-      res.send(fileRows);
-    });
+  if (req && req.file && req.file.path) {
+    csv
+      .parseFile(req.file.path)
+      .on("data", function (data) {
+        fileRows.push(data); // push each row
+      })
+      .on("end", function () {
+        console.log(fileRows);
+        // fs.unlinkSync(req.file.path); // remove temp file
+        //process "fileRows" and respond
+        res.send(fileRows);
+      });
+  }
+  res.status(500).send({
+    message: "Error req.file.path is not valid:",
+  });
 }
 
 app.listen(3000, () => {

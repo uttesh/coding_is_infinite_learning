@@ -1,6 +1,7 @@
 const fetch = require("node-fetch");
 const Constants = require("../../common/constants");
 const UtilityService = require("../../common/utility.service");
+const FormData = require("form-data");
 class HttpService {
   constructor(storeServiceInstance) {
     this.storeServiceInstance = storeServiceInstance;
@@ -28,8 +29,8 @@ class HttpService {
 
   async post(request) {
     let requestOptions = { method: "POST" };
-    let headers = this.getHeaders();
-    if (request.auth) {
+    let headers = await this.getHeaders();
+    if (request.auth && request.auth.type != "noauth") {
       headers["Authorization"] =
         request.auth.type + " " + (await this.getAuthHeader(request));
     }
@@ -38,8 +39,9 @@ class HttpService {
       let requestBody = request.body;
       switch (requestBody.mode) {
         case "raw":
+          headers["Content-Type"] = "application/json";
           requestObject = JSON.parse(requestBody.raw);
-          requestOptions.headers = await this.getHeaders();
+          requestOptions.headers = headers;
           requestOptions.body = JSON.stringify(requestObject);
           break;
         case "urlencoded":
@@ -52,11 +54,17 @@ class HttpService {
           requestOptions.body = JSON.stringify(requestObject);
           break;
         case "formdata":
-          headers["Content-Type"] = "multipart/form-data";
+          // headers["Content-Type"] = "multipart/form-data";
+          headers["Access-Control-Allow-Origin"] = "*";
+          requestObject = JSON.parse(
+            requestBody[Constants.CUSTOM_REQUEST_OBJECT]
+          );
           const formData = new FormData();
-          formData.append("file", fileInput.files[0]);
-          requestOptions.headers = await this.getHeaders();
-          requestOptions.body = JSON.stringify(requestObject);
+          console.log("requestObject.file :: ", requestObject.file);
+          formData.append("file", requestObject.file);
+          requestOptions.headers = headers;
+          console.log("requestOptions.headers :: ", requestOptions.headers);
+          requestOptions.body = formData;
           break;
       }
     }
@@ -101,7 +109,6 @@ class HttpService {
   async getHeaders(request) {
     let headers = {
       Accept: "application/json, text/plain, */*",
-      "Content-Type": "application/json",
     };
     return headers;
   }
