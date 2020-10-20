@@ -33,6 +33,14 @@ const Constants = Object.freeze({
       FORM_DATA: "formdata",
     },
   },
+  TEST_FILES: {
+    EXE: "files/data.exe",
+    CSV: "files/data.csv",
+    DOC: "files/data.doc",
+    JPG: "files/data.jpg",
+    PDF: "files/data.pdf",
+    PNG: "files/data.png",
+  },
 });
 
 module.exports = Constants;

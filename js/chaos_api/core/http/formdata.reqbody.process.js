@@ -13,6 +13,29 @@ class FormDataReqBodyProcess extends BaseReqProcess {
     }
   }
 
+  async executeReqByApeValues(apeBean) {
+    // console.log("inbase class:: ");
+    let paramBean = await this.getStoreService().get(
+      "PARAM_" + apeBean.getParamType().label
+    );
+    this.populateTestFileValues(paramBean);
+    const paramKeys = Object.keys(paramBean);
+    for (let pk = 0; pk < paramKeys.length; pk++) {
+      apeBean.setParamValue(paramBean[paramKeys[pk]]);
+      this.populateRequestBody(apeBean);
+      const response = await this.executePostRequest(apeBean.getRequest());
+      await this.populateStatus(apeBean, paramKeys[pk], response);
+    }
+    return apeBean;
+  }
+
+  async populateTestFileValues(paramBean) {
+    Object.keys(Constants.TEST_FILES).forEach((key) => {
+      console.log("Key : ", key);
+      console.log("Value : ", Constants.TEST_FILES[key]);
+    });
+  }
+
   populateRequestBody(apeBean) {
     let request = apeBean.getRequest();
     let formdataParams = apeBean.getRequest().body.formdata;
