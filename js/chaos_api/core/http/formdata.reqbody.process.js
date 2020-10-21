@@ -31,22 +31,19 @@ class FormDataReqBodyProcess extends BaseReqProcess {
 
   async populateTestFileValues(paramBean) {
     Object.keys(Constants.TEST_FILES).forEach((key) => {
-      console.log("Key : ", key);
-      console.log("Value : ", Constants.TEST_FILES[key]);
+      // console.log("Key : ", key);
+      paramBean[key] = Constants.TEST_FILES[key];
+      // console.log("Value : ", Constants.TEST_FILES[key]);
     });
   }
 
   populateRequestBody(apeBean) {
     let request = apeBean.getRequest();
     let formdataParams = apeBean.getRequest().body.formdata;
-    console.log("formdataParams :: ", formdataParams);
     let requestObj = {};
     formdataParams.forEach((item) => {
-      console.log("item :: ", item);
       requestObj[item.key] = item.key;
     });
-    console.log("apeBean.getField() :: ", apeBean.getField());
-    console.log("apeBean.getParamValue() :: ", apeBean.getParamValue());
     requestObj[apeBean.getField()] = apeBean.getParamValue();
     request.body[Constants.CUSTOM_REQUEST_OBJECT] = JSON.stringify(requestObj);
     apeBean.setRequest(request);

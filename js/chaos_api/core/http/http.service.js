@@ -60,10 +60,8 @@ class HttpService {
             requestBody[Constants.CUSTOM_REQUEST_OBJECT]
           );
           const formData = new FormData();
-          console.log("requestObject.file :: ", requestObject.file);
           formData.append("file", requestObject.file);
           requestOptions.headers = headers;
-          console.log("requestOptions.headers :: ", requestOptions.headers);
           requestOptions.body = formData;
           break;
       }

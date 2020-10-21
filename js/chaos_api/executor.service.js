@@ -81,18 +81,18 @@ class ExecutorService {
       let requestBody = apeBean.getRequest().body;
       console.log("requestBody.mode : ", requestBody.mode);
       switch (requestBody.mode) {
-        // case Constants.HTTP_REQUEST.BODY_TYPE.RAW:
-        //   let rawRequestBodyProcess = new RawRequestBodyProcess(
-        //     this.getStoreService(),
-        //     this.httpService
-        //   );
-        //   return rawRequestBodyProcess.executeRawRequest(apeBean);
-        // case Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED:
-        //   let urlEncodeReqProcess = new URLEncodeReqProcess(
-        //     this.getStoreService(),
-        //     this.httpService
-        //   );
-        //   return urlEncodeReqProcess.executeURLEncodeRequest(apeBean);
+        case Constants.HTTP_REQUEST.BODY_TYPE.RAW:
+          let rawRequestBodyProcess = new RawRequestBodyProcess(
+            this.getStoreService(),
+            this.httpService
+          );
+          return rawRequestBodyProcess.executeRawRequest(apeBean);
+        case Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED:
+          let urlEncodeReqProcess = new URLEncodeReqProcess(
+            this.getStoreService(),
+            this.httpService
+          );
+          return urlEncodeReqProcess.executeURLEncodeRequest(apeBean);
         case Constants.HTTP_REQUEST.BODY_TYPE.FORM_DATA:
           let formDataReqBodyProcess = new FormDataReqBodyProcess(
             this.getStoreService(),
