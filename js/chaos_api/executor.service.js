@@ -35,12 +35,12 @@ class ExecutorService {
     let requests = await this.getStoreService().get(Constants.APIS);
     let statusList = [];
     for (let i = 0; i < requests.length; i++) {
-      await this.execteRequest(requests[i], statusList);
+      await this.executeRequest(requests[i], statusList);
     }
     // console.log("::::Status list of all executions :: ", statusList);
   }
 
-  async execteRequest(request, statusList) {
+  async executeRequest(request, statusList) {
     let requestFieldProcess = new RequestFieldProcess();
     let requestBean = await requestFieldProcess.getAllRequestFields(request);
     switch (request.method) {
