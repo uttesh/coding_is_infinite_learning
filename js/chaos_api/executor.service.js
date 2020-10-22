@@ -3,11 +3,8 @@ const StoreService = require("./common/store.service");
 const HttpParserService = require("./core/http/http.parser.service");
 const HttpService = require("./core/http/http.service");
 const Constants = require("./common/constants");
-const ApeBean = require("./bean/ape.bean");
-const RawRequestBodyProcess = require("./core/http/raw.reqbody.process");
-const URLEncodeReqProcess = require("./core/http/url.encode.req.process");
 const RequestFieldProcess = require("./core/http/req.fields.process");
-const FormDataReqBodyProcess = require("./core/http/formdata.reqbody.process");
+const PostRequestExecutor = require("./core/execute.post.request");
 
 class ExecutorService {
   constructor(apisFile, environmentFile) {
@@ -40,7 +37,7 @@ class ExecutorService {
     for (let i = 0; i < requests.length; i++) {
       await this.execteRequest(requests[i], statusList);
     }
-    // console.log("Status list of all executions :: ", statusList);
+    // console.log("::::Status list of all executions :: ", statusList);
   }
 
   async execteRequest(request, statusList) {
@@ -48,63 +45,16 @@ class ExecutorService {
     let requestBean = await requestFieldProcess.getAllRequestFields(request);
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
-        if (
-          requestBean &&
-          requestBean.fields &&
-          requestBean.fields.length > 0
-        ) {
-          const fields = requestBean.fields.split(",");
-          for (let i = 0; i < fields.length; i++) {
-            let field = fields[i];
-            if (field) {
-              const paramTypes = Object.keys(Constants.LengthTypes);
-              for (let p = 0; p < paramTypes.length; p++) {
-                let apeBean = new ApeBean();
-                apeBean.setStatusList(statusList);
-                apeBean.setRequest(request);
-                apeBean.setField(field);
-                apeBean.setParamType(Constants.LengthTypes[paramTypes[p]]);
-                apeBean = await this.processPostRequest(apeBean);
-                if (apeBean) {
-                  statusList.push(apeBean.getStatusList());
-                }
-              }
-            }
-          }
-        }
+        const postRequestExecutor = new PostRequestExecutor(
+          this.storeServiceInstance
+        );
+        await postRequestExecutor.execteRequest(
+          requestBean,
+          request,
+          statusList
+        );
         break;
     }
-  }
-
-  async processPostRequest(apeBean) {
-    if (apeBean.getRequest().body) {
-      let requestBody = apeBean.getRequest().body;
-      console.log("requestBody.mode : ", requestBody.mode);
-      switch (requestBody.mode) {
-        case Constants.HTTP_REQUEST.BODY_TYPE.RAW:
-          let rawRequestBodyProcess = new RawRequestBodyProcess(
-            this.getStoreService(),
-            this.httpService
-          );
-          return rawRequestBodyProcess.executeRawRequest(apeBean);
-        case Constants.HTTP_REQUEST.BODY_TYPE.URL_ENCODED:
-          let urlEncodeReqProcess = new URLEncodeReqProcess(
-            this.getStoreService(),
-            this.httpService
-          );
-          return urlEncodeReqProcess.executeURLEncodeRequest(apeBean);
-        case Constants.HTTP_REQUEST.BODY_TYPE.FORM_DATA:
-          let formDataReqBodyProcess = new FormDataReqBodyProcess(
-            this.getStoreService(),
-            this.httpService
-          );
-          return formDataReqBodyProcess.executeFormDataRequest(apeBean);
-      }
-    }
-  }
-
-  async executePostRequest(request) {
-    return await this.httpService.post(request);
   }
 }
 
