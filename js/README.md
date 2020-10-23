@@ -15,14 +15,15 @@
 <li>Added status bean for the report</li>
 <li>Process url encode post request</li>
 <li>Prepare all other http calls for the execution</li>
+<li>Process file upload related post files</li>
+<li>list all type of POST calls</li>
 </ol>
 
 # Pending
 <ol>
 <li>add the UI for the process execution</li>
 <li>profile different types of file</li>
-<li>Process file upload related post files</li>
-<li>list all type of POST calls</li>
+
 <li>generate reports</li>
 <li>make npm library and document the changes</li>
 </ol>
