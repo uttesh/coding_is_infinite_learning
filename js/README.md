@@ -23,7 +23,7 @@
 <ol>
 <li>add the UI for the process execution</li>
 <li>profile different types of file</li>
-
+<li>PUT/DELETE calls implementation</li>
 <li>generate reports</li>
 <li>make npm library and document the changes</li>
 </ol>
