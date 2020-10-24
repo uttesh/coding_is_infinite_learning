@@ -1,11 +1,11 @@
 const StoreService = require("../common/store.service");
 const Constants = require("../common/constants");
-const HttpService = require("../core/http/http.service");
-const RawRequestBodyProcess = require("../core/http/raw.reqbody.process");
-const URLEncodeReqProcess = require("../core/http/url.encode.req.process");
-const FormDataReqBodyProcess = require("../core/http/formdata.reqbody.process");
+const HttpService = require("./http/http.service");
+const RawRequestBodyProcess = require("./http/raw.reqbody.process");
+const URLEncodeReqProcess = require("./http/url.encode.req.process");
+const FormDataReqBodyProcess = require("./http/formdata.reqbody.process");
 const ApeBean = require("../bean/ape.bean");
-class PostRequestExecutor {
+class RequestExecutor {
   constructor(storeServiceInstance) {
     this.storeServiceInstance = storeServiceInstance;
     this.httpService = new HttpService(this.storeServiceInstance);
@@ -26,7 +26,7 @@ class PostRequestExecutor {
             apeBean.setRequest(request);
             apeBean.setField(field);
             apeBean.setParamType(Constants.LengthTypes[paramTypes[p]]);
-            apeBean = await this.processPostRequest(apeBean);
+            apeBean = await this.processRequest(apeBean);
             if (apeBean) {
               statusList.push(apeBean.getStatusList());
             }
@@ -36,7 +36,7 @@ class PostRequestExecutor {
     }
   }
 
-  async processPostRequest(apeBean) {
+  async processRequest(apeBean) {
     if (apeBean.getRequest().body) {
       let requestBody = apeBean.getRequest().body;
       console.log("requestBody.mode : ", requestBody.mode);
@@ -64,4 +64,4 @@ class PostRequestExecutor {
   }
 }
 
-module.exports = PostRequestExecutor;
+module.exports = RequestExecutor;

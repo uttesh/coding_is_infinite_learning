@@ -4,7 +4,7 @@ const HttpParserService = require("./core/http/http.parser.service");
 const HttpService = require("./core/http/http.service");
 const Constants = require("./common/constants");
 const RequestFieldProcess = require("./core/http/req.fields.process");
-const PostRequestExecutor = require("./core/execute.post.request");
+const RequestExecutor = require("./core/execute.request");
 
 class ExecutorService {
   constructor(apisFile, environmentFile) {
@@ -45,14 +45,8 @@ class ExecutorService {
     let requestBean = await requestFieldProcess.getAllRequestFields(request);
     switch (request.method) {
       case Constants.HTTP_PARAMS.METHODS.POST:
-        const postRequestExecutor = new PostRequestExecutor(
-          this.storeServiceInstance
-        );
-        await postRequestExecutor.execteRequest(
-          requestBean,
-          request,
-          statusList
-        );
+        const requestExecutor = new RequestExecutor(this.storeServiceInstance);
+        await requestExecutor.execteRequest(requestBean, request, statusList);
         break;
     }
   }
