@@ -23,7 +23,7 @@ class FormDataReqBodyProcess extends BaseReqProcess {
     for (let pk = 0; pk < paramKeys.length; pk++) {
       apeBean.setParamValue(paramBean[paramKeys[pk]]);
       this.populateRequestBody(apeBean);
-      const response = await this.executePostRequest(apeBean.getRequest());
+      const response = await this.executeRequest(apeBean.getRequest());
       await this.populateStatus(apeBean, paramKeys[pk], response);
     }
     return apeBean;

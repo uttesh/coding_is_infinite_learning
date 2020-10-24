@@ -27,11 +27,6 @@ class HttpService {
     }
   }
 
-  async post(request) {
-    let requestOptions = { method: "POST" };
-    return await this.execute(request, requestOptions);
-  }
-
   async execute(request, requestOptions) {
     let headers = await this.getHeaders();
     if (request.auth && request.auth.type != "noauth") {

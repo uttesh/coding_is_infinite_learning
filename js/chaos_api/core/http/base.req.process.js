@@ -1,4 +1,5 @@
 const StatusBean = require("../../bean/status.bean");
+const Constants = require("../../common/constants");
 class BaseReqProcess {
   constructor(storeServiceInstance, httpService) {
     this.storeServiceInstance = storeServiceInstance;
@@ -18,7 +19,7 @@ class BaseReqProcess {
     for (let pk = 0; pk < paramKeys.length; pk++) {
       apeBean.setParamValue(paramBean[paramKeys[pk]]);
       this.populateRequestBody(apeBean);
-      const response = await this.executePostRequest(apeBean.getRequest());
+      const response = await this.executeRequest(apeBean.getRequest());
       await this.populateStatus(apeBean, paramKeys[pk], response);
     }
     return apeBean;
@@ -37,8 +38,15 @@ class BaseReqProcess {
     return apeBean;
   }
 
-  async executePostRequest(request) {
-    return await this.httpService.post(request);
+  async executeRequest(request) {
+    let requestOptions = { method: "POST" };
+    if (request.method === Constants.HTTP_PARAMS.METHODS.PUT) {
+      requestOptions = { method: "PUT" };
+    }
+    if (request.method === Constants.HTTP_PARAMS.METHODS.DELETE) {
+      requestOptions = { method: "DELETE" };
+    }
+    return await this.httpService.execute(request, requestOptions);
   }
 }
 

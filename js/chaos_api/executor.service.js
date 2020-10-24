@@ -48,6 +48,11 @@ class ExecutorService {
         const requestExecutor = new RequestExecutor(this.storeServiceInstance);
         await requestExecutor.execteRequest(requestBean, request, statusList);
         break;
+      // case Constants.HTTP_PARAMS.METHODS.PUT:
+      //   console.log("put call");
+      //   const requestExecutor = new RequestExecutor(this.storeServiceInstance);
+      //   await requestExecutor.execteRequest(requestBean, request, statusList);
+      //   break;
     }
   }
 }
