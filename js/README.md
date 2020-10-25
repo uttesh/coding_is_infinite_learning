@@ -17,13 +17,14 @@
 <li>Prepare all other http calls for the execution</li>
 <li>Process file upload related post files</li>
 <li>list all type of POST calls</li>
+<li>PUT calls implementation</li>
 </ol>
 
 # Pending
 <ol>
 <li>add the UI for the process execution</li>
 <li>profile different types of file</li>
-<li>PUT/DELETE calls implementation</li>
+<li>DELETE calls implementation</li>
 <li>generate reports</li>
 <li>make npm library and document the changes</li>
 </ol>
