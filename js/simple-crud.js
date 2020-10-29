@@ -1,8 +1,8 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const multer = require("multer");
-const csv = require("fast-csv");
+import express from 'express';
+import bodyParser from 'body-parser'
+import mongoose from 'mongoose'
+import multer from 'multer'
+import csv from 'fast-csv'
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
