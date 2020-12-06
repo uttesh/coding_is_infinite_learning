@@ -10,7 +10,7 @@ Hardware:
 3. sd card with the card reader.
 
 Software:
-1. Imager by Raspberry foundation to get the latest PI os or NOOBs(https://www.raspberrypi.org/software/(Win: https://downloads.raspberrypi.org/imager/imager_1.4.exe))
+1. Imager by Raspberry foundation to get the latest PI os or NOOBs(https://www.raspberrypi.org/software/)
 2. VNC viewer.
 3. Advance IP scanner( to find the connected raspi IP address for ssh).
 4. Putty.exe or PowerShell ssh
