@@ -5,9 +5,9 @@ Raspberry Pi related samples and projects using python.
 Initial headless mode setup the raspberry pi.
  
 Hardware:
-1.Raspberry Pi 4.
-2.USB type-c cable.
-3.sdcard with card reader.
+1. Raspberry Pi 4.
+2. USB type-c cable.
+3. sdcard with card reader.
 
 Software:
 1.Imager by Raspberry foundation to get the latest PI os or NOOBs(https://www.raspberrypi.org/software/(Win: https://downloads.raspberrypi.org/imager/imager_1.4.exe))
@@ -16,17 +16,17 @@ Software:
 4.Putty.exe or powersheel ssh
 
 Steps:
-1.Install the imager downloded from the raspberry pi official site.
-2.Burn the respective OS to the SD card, imager will provide the all the option like choose sd card and OS.
-3.On completion of the sd card bootable, open the boot sd card folder i.e. root folder in the sd card.
-4.Create a file 'wpa_supplicant.conf' and provide the wifi details. (https://www.raspberrypi.org/documentation/configuration/wireless/headless.md).
-5.Create a 'ssh' without any file extension.
+1. Install the imager downloded from the raspberry pi official site.
+2. Burn the respective OS to the SD card, imager will provide the all the option like choose sd card and OS.
+3. On completion of the sd card bootable, open the boot sd card folder i.e. root folder in the sd card.
+4. Create a file 'wpa_supplicant.conf' and provide the wifi details. (https://www.raspberrypi.org/documentation/configuration/wireless/headless.md).
+5. Create a 'ssh' without any file extension.
 
 Execution:
-1.Insert the sd card to the Pi and connect the USB cable.
-2.Open the advance ip scanner and find the raspberry ip address.
-3.Using the IP address ssh to the Pi by putty/powershell using the default user name "pi" and password "raspberry".
-4.On success ssh run below commands.
+1. Insert the sd card to the Pi and connect the USB cable.
+2. Open the advance ip scanner and find the raspberry ip address.
+3. Using the IP address ssh to the Pi by putty/powershell using the default user name "pi" and password "raspberry".
+4. On success ssh run below commands.
 
 ```
 pi > sudo raspi-config.
