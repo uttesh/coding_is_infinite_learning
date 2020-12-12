@@ -13,9 +13,10 @@ daily code challenges and learning
 </ul>
 
 ## Python
+### OpenCV/Tesseract library samples
 <ul>
  <li> Using the tesseract-python detect the character and digits on provided image sample </li>
- <li> Find the angles on the provided points on image or plot using the open-cv python</li>
-
+ <li> Find the angles on the provided points on image or plot using the OpenCV python</li>
+ <li> Scan the QR and Bar code using the OpenCV</li>
 </ul>
 
