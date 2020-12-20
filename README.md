@@ -25,5 +25,5 @@ daily code challenges and learning
 
 <ol>
  <li> Detect the faces in the provided real time or image data </li>
- <li> Simple face checkin sample to maitain the logins</li>
+ <li> Simple face checkin sample to maintain the logins</li>
 </ol>
