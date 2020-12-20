@@ -31,5 +31,10 @@ face_recognition
 numpy
 opencv-python
 ```
+Samples:
+<ol>
+<li>Simple face detection and recognition</li>
+<li>Simple face detection and login to the system sample</li>
+</ol>
 
 
