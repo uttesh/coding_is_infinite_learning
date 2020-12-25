@@ -1,24 +1,39 @@
 import cv2
 import numpy as np
-# img = cv2.imread('images/gadgets.png')
-
+from playsound import playsound
+import os
+import random
 # for real time objects
 cap = cv2.VideoCapture(0)
 cap.set(3,640)
 cap.set(4,480)
 
 classNames =[]
-classFile = 'object_detection_conf/coco.names'
+classFile = '../object_detection_conf/coco.names'
 with open(classFile,'rt') as f:
     classNames = f.read().rstrip('\n').split('\n')
 # print(classNames)
-configPath = 'object_detection_conf/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt'
-weightsPath = 'object_detection_conf/frozen_inference_graph.pb'
+configPath = '../object_detection_conf/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt'
+weightsPath = '../object_detection_conf/frozen_inference_graph.pb'
 net = cv2.dnn_DetectionModel(weightsPath, configPath)
 net.setInputSize(320, 320)
 net.setInputScale(1.0 / 127.5)
 net.setInputMean((127.5, 127.5, 127.5))
 net.setInputSwapRB(True)
+
+soundList = []
+soundsPath='../sounds'
+soundsFiles = os.listdir(soundsPath)
+for sound in soundsFiles:
+    soundFile = f'{soundsPath}/{sound}'
+    print('soundFile',soundFile)
+    soundList.append(soundFile)
+
+def isBirdDetected(objectName):
+    if 'bird' in objectName:
+        print("its bird")
+        # playsound(random.choice(soundList))
+        playsound('../sounds/applause2.wav')
 
 while True:
     success,img = cap.read()
@@ -37,6 +52,9 @@ while True:
         cv2.rectangle(img, (x,y),(x+w,h+y), color=(0, 255, 0), thickness=3)
         cv2.putText(img, classNames[classIds[i][0]-1].upper(), (box[0] + 10, box[1] + 50), cv2.FONT_HERSHEY_COMPLEX, 1,
                     (0, 255, 0), 2)
+        dectectedObjectClass = classNames[classIds[i][0]-1]
+        print('dectectedObjectClass ',dectectedObjectClass)
+        isBirdDetected(dectectedObjectClass)
     # print(indices)
     # if len(classIds)!=0:
     #     for classId,confidence,box in zip(classIds.flatten(),confd.flatten(),bbox):
