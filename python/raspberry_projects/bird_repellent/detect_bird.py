@@ -37,8 +37,8 @@ def isBirdDetected(objectName):
         print("its bird")
         # playsound(random.choice(soundList))
         # playsound('sounds/applause2.wav')
-
-        sound = mixer.Sound('sounds/applause2.wav')
+        # sound = mixer.Sound('sounds/applause2.wav')
+        sound = mixer.Sound(random.choice(soundList))
         sound.play()
 
 while True:
