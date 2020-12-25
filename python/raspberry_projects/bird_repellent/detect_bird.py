@@ -9,6 +9,8 @@ cap = cv2.VideoCapture(0)
 cap.set(3,640)
 cap.set(4,480)
 
+mixer.init(44100, -16, 2, 2048)
+
 classNames =[]
 classFile = 'object_detection_conf/coco.names'
 with open(classFile,'rt') as f:
@@ -35,6 +37,7 @@ def isBirdDetected(objectName):
         print("its bird")
         # playsound(random.choice(soundList))
         # playsound('sounds/applause2.wav')
+
         sound = mixer.Sound('sounds/applause2.wav')
         sound.play()
 
