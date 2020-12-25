@@ -25,7 +25,7 @@ soundList = []
 soundsPath='sounds'
 soundsFiles = os.listdir(soundsPath)
 for sound in soundsFiles:
-    soundFile = f'{soundsPath}/{sound}'
+    soundFile = soundsPath+'/'+sound
     print('soundFile',soundFile)
     soundList.append(soundFile)
 
