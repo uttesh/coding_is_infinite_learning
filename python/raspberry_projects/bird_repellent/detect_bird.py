@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from playsound import playsound
+from pygame import mixer
 import os
 import random
 # for real time objects
@@ -33,7 +34,9 @@ def isBirdDetected(objectName):
     if 'bird' in objectName:
         print("its bird")
         # playsound(random.choice(soundList))
-        playsound('sounds/applause2.wav')
+        # playsound('sounds/applause2.wav')
+        sound = mixer.Sound('sounds/applause2.wav')
+        sound.play()
 
 while True:
     success,img = cap.read()
