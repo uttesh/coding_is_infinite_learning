@@ -25,7 +25,7 @@ net.setInputMean((127.5, 127.5, 127.5))
 net.setInputSwapRB(True)
 
 soundList = []
-soundsPath='sounds'
+soundsPath='sounds/ultrasonic'
 soundsFiles = os.listdir(soundsPath)
 for sound in soundsFiles:
     soundFile = soundsPath+'/'+sound
@@ -37,7 +37,7 @@ def isBirdDetected(objectName):
         print("its bird")
         # playsound(random.choice(soundList))
         # playsound('sounds/applause2.wav')
-        sound = mixer.Sound('sounds/bark.wav')
+        sound = mixer.Sound(random.choice(soundList))
         # sound = mixer.Sound(random.choice(soundList))
         sound.play()
 
