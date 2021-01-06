@@ -35,6 +35,12 @@ Samples:
 <ol>
 <li>Simple face detection and recognition</li>
 <li>Simple face detection and login to the system sample</li>
+<li>Facial landmarks and filter</li>
 </ol>
+
+#### Facial Land mark
+to detect and highlight the facial landmark we can use the open source librariry 'dlib' which provide the 
+facial recognition training data and functions.
+to detect the facial land marks use 'shape_predictor_68_face_landmarks.dat.bz2'(http://dlib.net/files/) of dlib 
 
 

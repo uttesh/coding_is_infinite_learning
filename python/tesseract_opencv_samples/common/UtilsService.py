@@ -33,14 +33,30 @@ class UtilService:
         return img, finalContours
 
 
-    def reorder(self,points):
-        print(points.shape)
-        points = points.reshape((4,2))
-        add = points.sum(1)
+    def reorder(self,myPoints):
+        print(myPoints.shape)
+        myPointsNew = np.zeros_like(myPoints)
+        myPoints = myPoints.reshape((4, 2))
+        add = myPoints.sum(1)
+        myPointsNew[0] = myPoints[np.argmin(add)]
+        myPointsNew[3] = myPoints[np.argmax(add)]
+        diff = np.diff(myPoints, axis=1)
+        myPointsNew[1] = myPoints[np.argmin(diff)]
+        myPointsNew[2] = myPoints[np.argmax(diff)]
+        return myPointsNew
 
-    def warpImg(self,img,points,w,h):
-        self.reorder(points)
+    def warpImg(self,img,points,w,h,pad=20):
+        points = self.reorder(points)
+        pts1 = np.float32(points)
+        pts2 = np.float32([[0,0],[w,0],[0,h ],[w,h]])
+        matrix = cv2.getPerspectiveTransform(pts1,pts2)
+        imgWarp =  cv2.warpPerspective(img,matrix,(w,h))
+        imgWarp = imgWarp[pad:imgWarp.shape[0] - pad, pad:imgWarp.shape[1] - pad]
+        return imgWarp
 
+
+    def findDis(pts1,pts2):
+       return ((pts2[0]-pts1[0])**2 + (pts2[1]-pts1[1])**2)**0.5
 
 
 
