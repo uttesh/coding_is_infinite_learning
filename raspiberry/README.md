@@ -39,7 +39,7 @@ Select "Interfacing Options" and enable the "VNC" and "SSH" option and reboot th
 pi > sudo raspi-config.
 
 ``` 
-Select the "Advanced Option" and "Resolution" and set the resolution to the highest.
+Select the "Display Option" and "Resolution" and set the resolution to the highest.
 Now re-connect the VNC which will provide the Raspi view.
 
 ## Samples
