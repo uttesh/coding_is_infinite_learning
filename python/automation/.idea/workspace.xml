@@ -20,16 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe43113d-018b-461e-b226-799553ad1d34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dataservice/gdrive/requirement.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resume scrapper/ResumeDataScrapper.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_scrapping/example_tutorial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_scrapping/getconnected_topics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_scrapping/hacker_news_daily.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_scrapping/learn_bot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_scrapping/python_tutorials.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web_scrapping/sendmail.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../raspiberry/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../raspiberry/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

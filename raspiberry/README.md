@@ -29,7 +29,7 @@ Execution:
 4. On success ssh run the below commands.
 
 ```
-pi > sudo raspi-config.
+pi > sudo raspi-config
 
 ``` 
 Select "Interfacing Options" and enable the "VNC" and "SSH" option and reboot the raspi.
