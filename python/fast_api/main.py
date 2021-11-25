@@ -17,3 +17,7 @@ async def get(item_name:str):
 @app.post("/items/")
 async def create(item:Item):
     return item
+
+@app.put("/item/{item_id}")
+async def update(item_id:int,item:Item):
+    return {"item_id":item_id,**item.dict()}
