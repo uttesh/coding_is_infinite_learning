@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from item import Item
+from itemService import ItemService
 app = FastAPI()
 
 @app.get("/")
@@ -21,3 +22,7 @@ async def create(item:Item):
 @app.put("/item/{item_id}")
 async def update(item_id:int,item:Item):
     return {"item_id":item_id,**item.dict()}
+
+@app.get("/items/all")
+async def get(start:int=0,limit:int=10):
+    return ItemService.getItems()[start:limit]
