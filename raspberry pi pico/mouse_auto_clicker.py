@@ -13,14 +13,13 @@ led.direction =  digitalio.Direction.OUTPUT
 led.value = False
 time.sleep(5)
 
-def jiggle(xcordinates):
+def mouse_click():
     led.value = True
-    mouse.move(x=xcordinates)
+    mouse.click(Mouse.LEFT_BUTTON)
     led.value = False
-    time.sleep(0.5)
+    time.sleep(5)
     
 
 while True:
-    jiggle(100)
-    jiggle(-100)
+    mouse_click()
     
