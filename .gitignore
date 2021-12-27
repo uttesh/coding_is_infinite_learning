@@ -3,3 +3,4 @@
 venv
 /python/automation/.idea
 /raspberry pi/airflow_setup/.idea
+.idea

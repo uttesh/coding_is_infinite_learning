@@ -51,3 +51,8 @@ This simple program will move the mouse on the usb connected computer or mobile 
 
 Step1: Download the "adafruit_hid" library and install on the Pico through Thonny.
 Step2: Copy the mouse_jiggler.py code to the "code.py" and execute.
+
+## USB Rubber Ducky with a Raspberry Pi Pico
+1. Official github links for testing the rubber ducky using PICO.
+ pico-ducky - https://github.com/dbisu/pico-ducky
+ 
