@@ -10,4 +10,4 @@ Follow the following connection to get the WIFI for the PICO.
 
 Connection diagram:
 
-<img src="https://github.com/uttesh/coding_is_infinite_learning/blob/master/raspberry%20pi%20pico/micro_python/internet/pico_esp8266.png" width="200" height="200")
+<img src="https://github.com/uttesh/coding_is_infinite_learning/blob/master/raspberry%20pi%20pico/micro_python/internet/pico_esp8266.png" width="200" height="200" />
