@@ -13,7 +13,7 @@ def debug_command_response(uart, command):
     erase_len = len(command) + 3
     res = res[erase_len:]
     res = res[:5]
-    print("CMD: " + command + "execution response:" + res)
+    print("CMD: " + command + " --->  execution response::: " + res)
     return res
 
 
@@ -54,15 +54,16 @@ def sendDataHandler(uart,payload,deviceName):
 
 
 def postDeviceData(value, paramName, deviceName, uart):
-    print("postDeviceData ::value: ", value)
+    print("new ... postDeviceData ::value: ", value)
     ins = 'AT+CIPSTART="TCP","' + HOST + '",' + PORT + ''
     print(':::::: send TCP command::::::' + ins)
     executeInstruction(uart, ins,True)
 
     # build payload and find its length
-    payload = 'data: {"' + paramName + '":' + str(value) + '}'
+    payload = '{"' + paramName + '":' + str(value) + '}'
     sendDataHandler(uart,payload,deviceName)
     prepareRequestHandler(uart,len(payload))
     uart.write(payload + '\r\n')
     executeInstruction(uart, "")
     print("Data sent: " + payload)
+
